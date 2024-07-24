@@ -128,7 +128,118 @@ int main()
             unsigned short S3 = 30;
 
         }
-       
+        {
+            // 4Byte 정수형
+            long L1{ 14L };
+        }
+        {
+            // 8Byte 정수형
+            long LL1{ 14LL };
+            unsigned int Val3{ 4294967295 };
+            unsigned int Val4{ (unsigned int)4294967296 };
+            long long LL2{ 4294967296 };
+            // long long LL3{ (unsigned int)4294967296 };
+        }
+        {
+
+            // 4Byte 실수형
+            // 단정도 부동소수점
+            // 부동소수점은 오차가 발생할 수 있다.
+
+            float F{ 3.14F };
+            int Int{ (int)3.14F };
+
+            // debug 인 경우 메모리 뒷쪽에
+            // 추가정보가 기본적으로 들어가 있어서
+            // 이를 비활성화 하면 변수 크기만큼만 공간을 확보한다
+            // 프로젝트 속성 -> C/C++ -> 코드생성 -> 기본 런타임 검사 -> 기본값
+
+        }
+        
+        {
+            // 8Byte 실수형
+
+            double D{ 3.14 };
+
+        }
+
+        {
+            // 1Byte 정수형
+
+            unsigned char C = 255;
+            char C2 = (char)255;
+            unsigned char C3 = 'A'; // ASCII 코드 표에 대응되는 수치로 변환해서 저장
+            int Int = 'A';
+            int Int2 = 65;
+        }
+        
+        {
+            // 유니코드
+            // 2Byte
+            wchar_t W{ L'A' };
+            wchar_t W2{ L'가' };
+            // char C{ L'가' }; 표기 불가
+        }
+
+        {
+            // 부울타입 : 참과 거짓
+            // 1Byte
+            bool B0 = true; // 1
+            bool B1 = false; // 0
+            bool B2 = 0; // false
+            bool B3 = 1; // true
+            bool B4 = 22; // true
+        }
+        {
+            // 부동소수점 오차
+
+            double Value = 0.0;
+            if (Value == 0.0)
+            {
+                std::cout << "Value 가 0 입니다.\n";
+            }
+            
+            Value = Value + 0.1;
+            Value = Value + 0.1;
+            Value = Value + 0.1;
+
+            if (Value == 0.3)
+            {
+                std::cout << "Value가 0.3 입니다.\n";
+            }
+
+        }
+        {
+            // 초기화
+
+            int intNolnit; // 초기화를 하지 않은 변수
+            // 초기화: 변수를 선언함과 동시에 값을 지정하는것
+            int intnolnit = 10; // 초기화가 아니라 값을 대입
+
+            int intzerolnit = 0; // 선언과 동시에 값을 지정(초기화)
+            int intzerolnit2 = { 0 };
+            int intzerolnit3{ };  // 자동으로 0으로 초기화
+            float Float{}; // 0으로 초기화 
+        }
+        // 형변환(cast): 서로 다른 타입으로 변환
+        // C++ 타입(int, float, ...) 이 있기 때문에 타입간 변환이 필요한 상황이 생김
+        {
+            float Float{ 3.14F };
+            int Int = Float;   // 묵시적 casting "경고"
+            int Int2 = (int)Float; // 명시적 casting, C 스타일 cast
+            int Int3 = int(Float); // 명시적 casting, C 스타일
+            int Int4 = static_cast<int>(Float); // C++ 버전의 명시적 cast
+
+            // 2Byte 정수
+            short Short{ 10 };
+            // 4Byte 정수
+            int Int5 = Short; // 묵시적 casting
+            // int가 short 보다 크고, 둘 다 정수 타입이라 경고 안 뜸.
+
+            /*int Int6 = 999999;
+            short Short1 = Int6;*/ // 값이 잘림!, 경고도 발생하지 않는데 주의해서 사용 해야 겠습니다.
+        }
+
     }
 #pragma endregion
 

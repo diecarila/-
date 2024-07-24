@@ -7,7 +7,7 @@ int main()
 	// 자료형 (크기단위 byte)
 	// 정수형 : char(1), short(2), int(4), long(4), long long(8)
 	// 실수형 : float(4), double(8)
-
+	// 정수형과 실수형을 구분하는 이유는 둘의 처리방식이 다르기 때문.
 	int i = 0;
 
 	// 1바이트로 양수만 표현
