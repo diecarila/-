@@ -456,7 +456,50 @@ int Int{ (int)3.14F };
                 c3 = c3 ^ c1;
                 c3 = c3 ^ c1;
             }
-
+               // 비트 이동(shift) 연산
+            {
+                // 왼쪽으로 비트 이동
+                {
+                    // 0000 0001
+                    // 왼쪽으로 한 칸 이동
+                    // 0000 0010
+                    unsigned char C0 = 5;       // 0000 0101 : 5
+                    unsigned char C1 = C0 << 1; // 0000 1010 : 8 + 2 = 10
+                    unsigned char C2 = C0 << 2; // 0001 0100 : 20
+                    unsigned char C3 = C0 << 3; // 0010 1000 : 40
+                    unsigned char C4 = C0 << 4; // 0101 0000 : 80
+                    unsigned char C5 = C0 << 5; // 1010 0000 : 160
+                    unsigned char C6 = C0 << 6; // 0100 0000 : 64
+                    unsigned char C7 = C0 << 7; // 1000 0000 : 128
+                    unsigned char C8 = C0 << 8; // 0000 0000 : 0
+                }
+                // 오른쪽으로 비트 이동
+                {
+                    unsigned char C0 = 80;      // 0101 0000 : 80
+                    unsigned char C1 = C0 >> 1; // 0010 1000 : 40
+                    unsigned char C2 = C0 >> 2; // 0001 0100 : 20
+                    unsigned char C3 = C0 >> 3; // 0000 1010 : 10
+                    unsigned char C4 = C0 >> 4; // 0000 0101 : 5
+                    unsigned char C5 = C0 >> 5; // 0000 0010 : 2
+                    unsigned char C6 = C0 >> 6; // 0000 0001 : 1
+                    unsigned char C7 = C0 >> 7; // 0000 0000 : 0
+                    unsigned char C8 = C0 >> 8; // 0000 0000 : 0
+                }
+                // 음수의 경우 비트 이동이 조금 다르게 동작
+                {
+                    // MSB(Most Signnificant Bit) '1'111 1111
+                    char C0 = -1;       // 1111 1111 : -1 
+                    {
+                        char C1 = C0 >> 1; // 1111 1111 : -1
+                    }
+                    {
+                        char C1 = C0 << 1; // 1111 1110 : -2
+                        char C2 = C0 << 2; // 1111 1100 : -4
+                        char C7 = C0 << 7; // 1000 0000 : -128
+                        char C8 = C0 << 8; // 0000 0000 : 0
+                    }
+                }
+            }
         }
     
     }
