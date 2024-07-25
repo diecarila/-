@@ -30,11 +30,23 @@
 // Input Output Stream 입출력 담당하는 기능
 #include <iostream>
 #include <format>
+#include "Function/Function.h"
 
 
 int Glnt = 0;
 
+bool FirstTrue()
+{
+    std::cout << "FirstTrue\n";
+    return true;
+}
+bool FirstFalse()
+{
+    std::cout << "FirstFalse\n";
+    return false;
+}
 
+void Function2();
 
 // 메인이라는 함수는 시작하는 지점
 
@@ -778,7 +790,163 @@ c3 = c3 ^ c1;
 
 #pragma endregion
 
+#pragma region 09. 논리 연산자
+    {
+        // !: 논리 부정
+        if (!false) // !false == true
+        {
+        std::cout << "!false\n";
+        }
+        
+        // 논리곱 (AND)
+        // && : 양쪽 조건이 모두 참인경우 -> ture
+        //      하나라도 거짓인 경우 -> false
+        int a = 10;
+        int b = 20;
+        // 1. a == 10 ? true
+        // 2. b == 10 ? false
+        // if(true && false) -> false
+        if (a == 10 && b == 10)
+        {
+            std::cout << "a == 10 && b == 10\n";
+        }
+
+        // 1. a == 10 ? true
+        // 2. b == 20 ? true
+        // if(true && true) => true
+        if (a == 10 && b == 20)
+        {
+            std::cout << "a == 10 && b == 20\n";
+        }
+        
+        int c = 30;
+        // 1. a == 10? true
+        // 2. b == 20? true
+        // 3. c == 20? false
+        // if(true && true && false) -> false
+        if (a == 10 && b == 20 && c == 20);
+        {
+            std::cout << "a == 10 && b == 20 && c == 20\n";
+        }
     
+        // int a = 10;
+        // int b = 20;
+        // 논리합(OR)
+        // 1. a == 10? true
+        // if(true) -> true
+        if (a == 10 || b == 10)
+        {
+            std::cout << "a == 10 || b == 10";
+        }
+
+        // 1. b == 10 ? false
+        // 2. a == 10 ? true
+        // if(false || true) -> true
+        if (b == 10 || a == 10)
+        {
+            std::cout << "a == 10 || b == 10\n";
+        }
+
+        // 1. b == 50 ? false
+        // 2. a == 60 ? false
+        // if(false || false) -> false
+        if (b == 50 || a == 60)
+        {
+            std::cout << "b == 50 || a == 60\n";
+        }
+
+        if (FirstFalse())
+        {
+            std::cout << "FirstTrue\n";
+        }
+        else
+        {
+            std::cout << "FirstTrue\n";
+        }
+
+        std::cout << "[Test]\n";
+        // 1. FirstTrue -> true
+        if (FirstTrue() || FirstFalse())
+        {
+            std::cout << "FirstTrue\n";
+        }
+
+        // 1. FirstFalse -> false
+        // 2. FirstTrue -> true
+        // if(false || true) -> true
+        if (FirstFalse() || FirstTrue())
+        {
+            std::cout << "FirstTrue\n";
+        }
+
+        const bool bFirst = FirstTrue();
+        const bool bSecond = FirstFalse();
+        if (bFirst || bSecond)
+        {
+            std::cout << "true\n";
+        }
+
+
+    }
+#pragma endregion
+#pragma region 10. 함수(function) 매우 중요
+    {
+        // 규모가 큰 프로그램에서 모든 코드를 main 안에 담게 되면
+        // 관리적인 측면에서 힘들 것 같습니다.
+        // 코드 가독성(읽기 쉬운 정도)를 높히려면 코드를 간결하고 명확한
+        // 함수 단위로 나누는 것이 좋겠습니다.
+
+        // C++에서 함수를 사용하려면 먼저 함수 선언을 해야합니다
+        // 반환타입 함수이름 (입력 파라미터(옵션; 있어도 되고 없어도됨))
+        // void    FunctionName (int a, int b)
+
+        // 디버거가 붙어 있는 상황에서 F11을 눌러서 함수 내부로
+        // 진입할 수 있다.
+
+        // 함수도 시작 주소가 있습니다.
+        // 함수를 호출한다는건
+        // >> 돌아올 다음주소를 백업 해두고
+        // >> 호출할 함수의 주소로 이동
+        // >> 함수 수행
+        // >> 리턴을 만나면 백업해둔 주소로 이동
+        FunctionName(10, 20);
+
+        // 이 함수를 호출하는 위치 기준으로 이 라인보다 위에 함수가
+        // 있다는 것을 알려주지 않으면 함수를 찾을 수 없습니다.
+        
+
+        // 콜링 컨벤션(Calling Conventions)
+        // 함수를 호출하는 방식
+        // __cdecl, __stdcall, __thiscall, __fastcall
+
+        int Result = AddFunction(10, 20);
+        
+        // 파라미터를 던지는 경우 특정 레지스터(메모리)에 값을 백업 했다가
+        // 함수 내부로 진입해서 그 레지스터(메모리)에서 다른 메모리로 값을 복원한다
+        // 추가적으로 함수로 이동하는 과정 (비용) 추가적으로 발생
+        // 함수 호출의 오버해드라고 표현 합니다.
+        
+        int a = 10, b = 20;
+        
+        // int InA = a;
+        // int InB = b;
+        int Result2 = AddFunction(a, b);
+        double Result3 = AddFunction(10.34, 3.14);
+
+        int tem = 0;
+
+
+    }
+       //dfdsasd
+#pragma endregion
+
+
+
+
+
+
+
+
 
 
 
