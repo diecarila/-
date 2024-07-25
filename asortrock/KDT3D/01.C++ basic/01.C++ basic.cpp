@@ -29,6 +29,8 @@
 
 // Input Output Stream 입출력 담당하는 기능
 #include <iostream>
+#include <format>
+
 
 int Glnt = 0;
 
@@ -96,6 +98,7 @@ int main()
         // 정수형: char(1Byte), short(2Byte), int(4Byte), long(4Byte), long long(8Byte), __int64(8Byte)
         //        주로 쓰는 것: char, int
         // 실수형: float(4Byte), double(8Byte)
+        // 2진수를 10진수로 바꾸는거 알아두자. 아님 계산기
 
         {
             int Var{ 0 }; // 초기화 연산자로 변수를 선언과 동시에 초기화한다.
@@ -147,13 +150,13 @@ int main()
             // 단정도 부동소수점
             // 부동소수점은 오차가 발생할 수 있다.
 
-float F{ 3.14F };
-int Int{ (int)3.14F };
+            float F{ 3.14F };
+            int Int{ (int)3.14F };
 
-// debug 인 경우 메모리 뒷쪽에
-// 추가정보가 기본적으로 들어가 있어서
-// 이를 비활성화 하면 변수 크기만큼만 공간을 확보한다
-// 프로젝트 속성 -> C/C++ -> 코드생성 -> 기본 런타임 검사 -> 기본값
+            // debug 인 경우 메모리 뒷쪽에
+            // 추가정보가 기본적으로 들어가 있어서
+            // 이를 비활성화 하면 변수 크기만큼만 공간을 확보한다
+            // 프로젝트 속성 -> C/C++ -> 코드생성 -> 기본 런타임 검사 -> 기본값
 
         }
 
@@ -173,17 +176,19 @@ int Int{ (int)3.14F };
             int Int = 'A';
             int Int2 = 65;
         }
-
-        {
+            
             // 유니코드 (다국어 처리가 가능, char는 단일 문자 가능)
+        
+        {
+            
             // 2Byte
             wchar_t W{ L'A' };
             wchar_t W2{ L'가' };
             // char C{ L'가' }; 표기 불가
         }
-
+             // 부울타입 : 참과 거짓
         {
-            // 부울타입 : 참과 거짓
+            
             // 1Byte
             bool B0 = true; // 1
             bool B1 = false; // 0
@@ -191,23 +196,26 @@ int Int{ (int)3.14F };
             bool B3 = 1; // true
             bool B4 = 22; // true
         }
-        {
-            // 부동소수점 오차
+        
+        
+        
+             // 부동소수점 오차
+        {           
 
-            double Value = 0.0;
-            if (Value == 0.0)
-            {
-                std::cout << "Value 가 0 입니다.\n";
-            }
-
-            Value = Value + 0.1;
-            Value = Value + 0.1;
-            Value = Value + 0.1;
-
-            if (Value == 0.3)
-            {
-                std::cout << "Value가 0.3 입니다.\n";
-            }
+           // double Value = 0.0;
+           // if (Value == 0.0)
+           // {
+           //     std::cout << "Value 가 0 입니다.\n";
+           // }
+           //
+           // Value = Value + 0.1;
+           // Value = Value + 0.1;
+           // Value = Value + 0.1;
+           //
+           // if (Value == 0.3)
+           // {
+           //     std::cout << "Value가 0.3 입니다.\n";
+           // }
 
         }
         {
@@ -329,7 +337,7 @@ int Int{ (int)3.14F };
             bool b6( !false );   // 거짓이 아니다 == 참(true)
 
             bool b7{ true };     // 참
-            bool b8{ !b7 };      // b7이 참인데 b7(참)이 아니다 == 거짓
+            bool b8{ !b7 };      // b7이 참인데 b7(참)이 아니다 == 거짓 (!은 not 의 의미.)
         }
     
          // [이항]사칙 연산
@@ -342,7 +350,7 @@ int Int{ (int)3.14F };
 
             int d{ c * 3 }; // -1 * 3 = -3
 
-            int e{ 10 / 3 }; // 3
+            int e{ 10 / 3 }; // 3 int 로 하면 소수점이 날아감.
             float f{ 10 / 3 }; // int(10) / int(3) = int(3) -> float f = 3
             float f2{ 10.f / 3.f };
         }
@@ -403,7 +411,7 @@ int Int{ (int)3.14F };
             i %= 2; // 3 % 2 = 몫 1 나머지 1 <<
         }
     
-         // 비트 단위 연산
+         // 비트 단위 연산   * and, or는 중요
         {
             // AND 연산
             {
@@ -441,22 +449,22 @@ int Int{ (int)3.14F };
                 // 1111
                 // ------- XOR
                 // 1101
-                
-                char c1 = 0b0010;
-                char c2 = 0b1111;
-                char c3 = c1 ^ c2; // 13
 
-                // 1101
-                // 0010
-                // ------- XOR
-                // 1111
-                c3 = c3 ^ c1;
-                c3 = c3 ^ c1;
-                c3 = c3 ^ c1;
-                c3 = c3 ^ c1;
-                c3 = c3 ^ c1;
+char c1 = 0b0010;
+char c2 = 0b1111;
+char c3 = c1 ^ c2; // 13
+
+// 1101
+// 0010
+// ------- XOR
+// 1111
+c3 = c3 ^ c1;
+c3 = c3 ^ c1;
+c3 = c3 ^ c1;
+c3 = c3 ^ c1;
+c3 = c3 ^ c1;
             }
-               // 비트 이동(shift) 연산
+            // 비트 이동(shift) 연산
             {
                 // 왼쪽으로 비트 이동
                 {
@@ -469,7 +477,7 @@ int Int{ (int)3.14F };
                     unsigned char C3 = C0 << 3; // 0010 1000 : 40
                     unsigned char C4 = C0 << 4; // 0101 0000 : 80
                     unsigned char C5 = C0 << 5; // 1010 0000 : 160
-                    unsigned char C6 = C0 << 6; // 0100 0000 : 64
+                    unsigned char C6 = C0 << 6; // 0100 0000 : 64  <- 1이 한 칸 밀리면서 날아감
                     unsigned char C7 = C0 << 7; // 1000 0000 : 128
                     unsigned char C8 = C0 << 8; // 0000 0000 : 0
                 }
@@ -490,7 +498,21 @@ int Int{ (int)3.14F };
                     // MSB(Most Signnificant Bit) '1'111 1111
                     char C0 = -1;       // 1111 1111 : -1 
                     {
+                        // bit Shift : CPU마다 다르다 (Intel, AMD) -> ( ASM )
+                        // ms에서 제공하는 방식 (컴파일러 MS)
+                        // MSB가 Sign역할
+                        // >> MSB로 계속 채워 넣는다.
+                        // 1111 1111 -> -1 
+                        //              -1 / 2  -> -1 -1 -1 -1
+                        // 1000 0000 -127
+                        //            >> 1 : -63 (1100 0000)
+                        //            >> 1 : -31 (1110 0000)
+                        //            >> ...1 : -1 (1111 1111)
+
+
                         char C1 = C0 >> 1; // 1111 1111 : -1
+                        char C1_ = C1 >> 1; // 1111 1111 : -1
+
                     }
                     {
                         char C1 = C0 << 1; // 1111 1110 : -2
@@ -501,10 +523,270 @@ int Int{ (int)3.14F };
                 }
             }
         }
-    
+
+
+        // 삼항 연산자(tematy operator) / 조건 연산자
+        {
+            int i = 0;
+
+            //      (조건문) ? 참일때 : 거짓일때
+            //  조건을 만족하면 : 기준으로 왼 아니면 오른쪽
+
+            int k1 = (i == 0) ? 10 : -10;
+            int k2 = (i != 0) ? 10 : -10;
+        }
+
+        // 연산자 우선순위
+        {
+            int i1 = 10 - 5 * 5; // 10 - 25 = -15
+            int i2 = (10 - 5) * 5; // 5 * 5 = 25
+        }
+
     }
 #pragma endregion
+#pragma region 06. 열거형(enum; enumerated type; 이넘)*
+    {
+        {
+            const int Iron = 0;
+            const int Bronze = 1;
+            const int Silver = 2;
+            const int Gold = 3;
+
+            int MyTier = Gold;
+            if (MyTier == Gold)
+            {
+                std::cout << "골드 티어 입니다.\n";
+            }
+        }
+        {
+            enum class ETier : unsigned char
+            {
+                Iron,
+                Bronze, /*= 10*/
+                Silver,
+                Gold,
+            };
+
+            unsigned char MyTier = (unsigned char)ETier::Gold;
+            ETier MyTier2 = ETier::Silver;
+            ETier MyTier3 = (ETier)3; // ETier::Gold
+            if (MyTier2 == ETier::Silver)
+            {
+                std::cout << "실버 티어 입니다.\n";
+            }
+            if (MyTier2 == ETier::Gold)
+            {
+                std::cout << "골드 티어 입니다.\n";
+            }
+        }
+    }
+#pragma endregion
+#pragma region 07. 구조체(struct) 중요!
+    {
+        enum class ETier : unsigned char
+        {
+            None,
+            Iron,
+            Bronze,
+            Silver,
+            Gold,
+        };
+
+        int HP = 10;
+        int MP = 20;
+        ETier Tier = ETier::None;
+        // HP = 20;
+
+        struct FPlayer
+        {
+            int HP = 10;
+            int MP = 20;
+            ETier Tier = ETier::None;
+            // 3Byte padding  int 가 4Byte 이기 때문에 남음 위에서 ETier 는 unsigned char 라고 했기 때문에 1Byte
+        };
+
+        // FPlayer: 구조체 타입 (구조체: 데이터를 묶어둠)
+        // Player: 인스턴스(instance; 실체화된 사례) (메모리에 만들어진 것)
+        FPlayer Player{ .MP = 100,.Tier = ETier::Gold };
+        FPlayer Player2;
+        Player2.HP = 200;
+        Player2.MP = 300;
+        Player2.Tier = ETier::Iron;
+        
+        std::cout << "[Player Info]\n";
+        std::cout << "HP: " << Player2.HP << ", MP: " << Player2.MP << ", Tier: " << (int)Player2.Tier << std::endl;
+        std::cout << std::format("HP: {}, MP: {}, Tier: {}\n", Player2.HP, Player2.MP, (int)Player2.Tier);
+#pragma pack(push, 1)
+        struct FPadding // 프라그마 팩을 사용할 때는 네트워크 전송할 때, 읽기 쓰기가 필요 없기 때문.
+        {
+            char C;
+            // 3Byte padding이 숨겨져 있다 
+            // 지금 가장 큰 기본 자료형 크기가 4Byte라서 4Byte padding 이 잡힘
+            
+            int l;
+
+            char C1;
+            // 3Byte padding이 잡힌다.
+            // 이런 상황을 피하려면 padding을 고려해서 C1 변수를 C아래쪽으로 옮겨야
+            // 낭비되는 byte 를 줄일 수 있다.
+
+        };
+#pragma pack(pop) // 다시 보기
+
+        /*struct  FPadding2
+        {
+            char C1;
+            int l;
+        }*/
+
+        // 64bit(8Byte) 환경에서 한번에 접근해서 연산할 수 있는 최대 단위가 8Byte
+        // padding을 비활성화 해서 다음과 같은 경우
+        // char / double (9Byte)
+        // [00] / [ 00 00 00 00 00 00 00 00 ]
+        // [00] / [ 00 00 00 00 00 00 00 ] // [ 00 ] // double 을 읽으려면 2번 접근해야됨
+
+        // padding 을 넣게되면
+        // [00] 00 00 00 00 00 00 00 / [00 00 00 00 00 00 00 00]
+
+        // double에 값을 쓰거나 읽으려고 했을때 padding이 잡혀있지 않으면
+        // 2번 접근해야 하는 상황이 발생할 수 있다
+        // 그렇기 때문에 속도 저하 가능성이 있음.
+
+    }
+#pragma endregion
+#pragma region 08. 조건문(if / switch) 중요
+    {
+        int  V = 0;
+        if (V == 0)
+        {
+            std::cout << "V == 0\n";
+        }
+
+        int V2 = 0;
+        std::cin >> V2;
+        if (V2 == 100)
+        {
+            std::cout << "V2 == 100\n";
+        }
+        else if (V2 == 70)
+        {
+            std::cout << "V2 == 70\n";
+        }
+        else if (V2 == 50)
+        {
+            std::cout << "V2 == 50\n";
+        }
+        else if (V2 == 60)
+        {
+            std::cout << "V2 == 60\n";
+        }
+        else
+        {
+            std::cout << std::format("V2 : {}\n", V2);
+        }
+    }
+
+    // switch
+    {
+        /*int V2 = 0;
+        std::cin >> V2;
+        switch (V2)
+        {
+        case 100:
+            std::cout << "V2 == 100\n";
+            break;
+        case 50:
+            std::cout << "V2 == 50\n";
+            break;
+        default:
+            std::cout << "defalte\n";
+            break;
+        }*/
+
+        enum class ETier : unsigned char
+        {
+            None,
+            Iron,
+            Bronze,
+            Silver,
+            Gold,
+        };
+        struct FPlayer
+        {
+            int HP = 10;
+            int MP = 10;
+            ETier Tier = ETier::None;
+        };
+        FPlayer Player{ .MP = 100,.Tier = ETier::Gold };
+
+        std::cout << "[Player Info]\n";
+        std::cout << std::format("HP: {}, MP: {},", Player.HP, Player.MP);
+        switch (Player.Tier)
+        {
+        case ETier::None:
+            std::cout << "ETier::None";
+            break;
+        case ETier::Iron:
+            std::cout << "ETier::Iron";
+            break;
+        case ETier::Silver:
+            std::cout << "ETier::Silver";
+            break;
+        case ETier::Gold:
+            std::cout << "ETier::Gold";
+            break;
+        default:
+            break;
+
+        }
+        std::cout << std::endl;
+
+        switch (Player.Tier)
+        {
+        case ETier::None:
+            std::cout << "ETier::None";
+            break;
+        case ETier::Iron:
+        case ETier::Bronze:
+        case ETier::Silver:
+            std::cout << "Iron or Bronze or Silver";
+            break;
+        case ETier::Gold:
+            std::cout << "ETier::Gold";
+            break;
+        default:
+            break;
+        }
+        std::cout << std::endl;
+
+        if (Player.Tier == ETier::None)
+        {
+            std::cout << "ETier::None";
+        }
+
+        else if (Player.Tier == ETier::Iron || Player.Tier == ETier::Bronze || Player.Tier == ETier::Silver)
+        {
+            std::cout << "Iron or Bronze or Silver";
+        }
+
+        else if (Player.Tier == ETier::Gold)
+        {
+            std::cout << "ETier::Gold";
+        }
+        std::cout << std::endl;
+    }
+
+#pragma endregion
+
+    
+
+
+
 }
+
+
+
+
 
 
 
