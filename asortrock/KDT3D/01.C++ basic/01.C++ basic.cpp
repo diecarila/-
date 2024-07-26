@@ -51,6 +51,8 @@ void Function2();
 // 메인이라는 함수는 시작하는 지점
 
 int main()
+
+
 {    // 브레이크 포인트(Break point): F5로 프로그램을 실행(디버거를 붙여서 실행) F9 또는 왼쪽 가장자리 클릭
      // F10: 한 줄씩 실행 가능
      // 디버거가 활성화된 상태에서 & Breakpoint 등으로 멈춰있는 상태에서
@@ -675,7 +677,7 @@ c3 = c3 ^ c1;
         }
 
         int V2 = 0;
-        std::cin >> V2;
+        // std::cin >> V2;
         if (V2 == 100)
         {
             std::cout << "V2 == 100\n";
@@ -698,9 +700,9 @@ c3 = c3 ^ c1;
         }
     }
 
-    // switch
+      // switch
     {
-        /*int V2 = 0;
+        int V2 = 0;
         std::cin >> V2;
         switch (V2)
         {
@@ -710,10 +712,10 @@ c3 = c3 ^ c1;
         case 50:
             std::cout << "V2 == 50\n";
             break;
-        default:
+        default: // if의 else 
             std::cout << "defalte\n";
             break;
-        }*/
+        }
 
         enum class ETier : unsigned char
         {
@@ -831,7 +833,7 @@ c3 = c3 ^ c1;
     
         // int a = 10;
         // int b = 20;
-        // 논리합(OR)
+        // 논리합(OR)      and 와 or 많이 씀.
         // 1. a == 10? true
         // if(true) -> true
         if (a == 10 || b == 10)
@@ -865,8 +867,13 @@ c3 = c3 ^ c1;
         }
 
         std::cout << "[Test]\n";
-        // 1. FirstTrue -> true
+        // 1. FirstTrue -> true 함수 내부 진행은 F11 한 줄씩 그냥 진행은 F10
         if (FirstTrue() || FirstFalse())
+        {
+            std::cout << "FirstTrue\n";
+        }
+        std::cout << "[Test2]\n";
+        if (FirstTrue() && FirstTrue())
         {
             std::cout << "FirstTrue\n";
         }
@@ -933,32 +940,154 @@ c3 = c3 ^ c1;
         int Result2 = AddFunction(a, b);
         double Result3 = AddFunction(10.34, 3.14);
 
-        int tem = 0;
+        // 재귀 함수 호출이 많이 발생하는 경우  * 재귀 문제 풀어보려면 c++ 하노이의 탑
+        // Debug 설정일 때 함수 호출 오버해드로 인해서
+        // 한 번의 함수 호출로 구현해둔 함수에 비해 느릴 수 있다.
+        unsigned long long Result4 = Factorial(10);
+        std::cout << Result4 << std::endl;
 
+        
+    }
+       
+#pragma endregion
+#pragma region 11. Bit flag
+    {
+        unsigned char Property1 = EPropertyFlags::EProperty1;
+        HasFlags(Property1);
+        unsigned char Property3 = EPropertyFlags::EProperty3;
+        HasFlags(Property3);
+
+        // 0000 0001
+        // 0000 0100
+        // ---------- OR
+        // 0000 0101
+        unsigned char Property13 = EPropertyFlags::EProperty1 | EPropertyFlags::EProperty3;
+        HasFlags(Property13);
+
+        unsigned char Property135 = Property13;
+        //Property135 = Property135 | EPropertyFlags::EProperty5;
+        Property135 |= EPropertyFlags::EProperty5;
+        HasFlags(Property135);
+
+        unsigned char Property35 = Property135; // 1만 빼는것
+
+        // EPropertyFlags::EProperty1: 0000 0000
+        // ~EPropertyFlags::EProperty1: 1111 1110   ~은 !이랑 똑같음.
+        // 0001 0101
+        // 1111 1110
+        // ---------- AND
+        // 0001 0100
+
+        Property35 = Property35 & ~EPropertyFlags::EProperty1;
+        HasFlags(Property35);
+
+        // 0000 0010
+        // 0000 1000
+        // ---------- OR
+        // 0000 1010
+        unsigned char Toggle = EProperty2 | EProperty4;
+        HasFlags(Toggle); // 켰다 껐다
+
+        // 0000 1010 (2, 4)
+        // 0000 1000 (4)
+        // --------- XOR (같으면 0 다르면 1)
+        // 0000 0010 (2)
+        Toggle = Toggle ^ EProperty4;
+        HasFlags(Toggle);
+        // 0000 0010 (2)
+        // 0000 1000 (4)
+        // ---------- XOR
+        // 0000 1010 (2,4)
+        Toggle = Toggle ^ EProperty4;
+        HasFlags(Toggle);
+
+        unsigned char Flags = EPropertyFlags::ENone;
+        // 지정
+        Flags = EProperty1;
+        
+        // 켜기
+        Flags |= EProperty2;
+
+        // 끄기
+        Flags       &= ~EProperty2;
+
+        // 토글 (껏다 켰다)
+        Flags ^= EProperty3; // 켜짐 
+        Flags ^= EProperty3; // 꺼짐
+        Flags ^= EProperty3; // 켜짐
+        Flags ^= EProperty3; // 꺼짐
 
     }
-       //dfdsasd
 #pragma endregion
+#pragma region 12. 배열 (array)
+    {
+        int a{}, b{}, c{};
+        a = 1;
+        b = 2;
+        c = 3;
 
+        // 1차원 배열
+        {
+            // int 데이터 5개(count)를 만들겠다
+            int Array[5]{ 5,4,1,8,3};
 
+            // 0번 index(또는 원소)에 1을 넣겠다
+            // Array의 시작 주소로 부터 타입의 크기(int) * 인덱스만큼 건너뛴 값을 편집한다
+            // Array 시작주소 + TypeSize(int) * index
+            Array[0] = 1;
+            Array[1] = 2;
+            Array[2] = 3;
+            Array[3] = 4;
+            Array[4] = 5;
+        }
+    }
+#pragma endregion
+#pragma region 13. 반복문(loop) 중요2
+    {
+        // while
+        {
+            int i = 0;
+            while (i < 5)
+            {
+                std::cout << std::format("i: {}\n", i);
+                ++i;
 
+                if (i == 3)
+                {
+                    std::cout << "i가 3일때 탈출!\n";
+                    break;
+                }
+            }
 
+        }
 
+        // do while      한 번은 거짓이여도 실행함.
+        {
+            int i{ 30 };
+            do
+            {
+                std::cout << "Test\n";
+            } while (i < 5);
+        }
 
+        // for
+        {
+            
+        }
 
-
-
-
-
+        // 범위기반 for(range based for)
+    }
+#pragma endregion
 }
 
 
 
 
 
-
-
-
+// &의 의미 : 주소를 불러오겠다
+// new int : 동적할당으로 힙 메모리를 쓰겠다
+// new int[] : 동적할당으로 힙 메모리를 int [] 개 만큼 쓰겠다
+// new int{} : 동적할당으로 힙 메모리의 int 값을 {} 로 초기화 하겠다
 
 
 
