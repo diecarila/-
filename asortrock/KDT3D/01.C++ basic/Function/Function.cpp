@@ -69,4 +69,27 @@ void HasFlags(unsigned char InProperty)
 
 }
 
+int CallByValue(int InValue)
+{
+	InValue = 10;
+	return InValue;
+}
+
+FParam CallByValue(FParam InParam)
+{
+	InParam.Value[0] = 9999;
+	InParam.Value[5] = 5555;
+	return InParam;
+}
+
+FParam::FParam()
+{
+	std::cout << "FParam\n";
+}
+
+FParam::~FParam()
+{
+	std::cout << "~FParam\n";
+}
+
 

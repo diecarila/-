@@ -29,3 +29,43 @@ double AddFunction(const double InA, const double InB);
  };
  
  void HasFlags(unsigned char InProperty);
+
+ int CallByValue(int InValue);
+#include <iostream>
+
+ struct FParam
+ {
+	 // 생성자
+	 FParam();
+
+	 // 복사 생성자: 선언하지 않으면 자동으로 만들어 줍니다.
+	 // (기본 복사 생성자의 경우) InOther에 있는 데이터를
+	 // 신규로 만들어질 인스턴스의 맴버 변수에 복제한다
+	 FParam(const FParam& InOther)
+		 : A(InOther.A)
+	 {
+		 std::cout << "FParam copy constructor\n";
+		 for (int i = 0; i < 1000; ++i)
+		 {
+			 this->Value[i] = InOther.Value[i];
+		 }
+
+	 }
+	 void operator=(const FParam& InOther)
+	 {
+		 std::cout << "FParam operator=\n";
+		 for (int i = 0; i < 1000; ++i)
+		 {
+			 this->Value[i] = InOther.Value[i];
+		 }
+		 
+		 A = InOther.A;
+
+	 }
+	 // 소멸자
+	 ~FParam();
+	 int Value[1000]{};
+	 int A = 999;
+ };
+ 
+ FParam CallByValue(FParam InValue);

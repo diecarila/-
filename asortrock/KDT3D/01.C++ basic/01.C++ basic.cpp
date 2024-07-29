@@ -1156,8 +1156,8 @@ c3 = c3 ^ c1;
         }
     }
 #pragma endregion
-#pragma region 14. 포인터 동적 할당(pointer매우중요, dynamic allocation) + 레퍼런스
-    {
+#pragma region 14. 포인터 동적 할당(pointer매우중요, dynamic allocation) + 레퍼런스 
+    {   // 배열, 포인터, 이해 못하면 다음것들이 진행이 안됨.
         // 메모리 할당과 이를 관리하는 것은 C++프로그래밍에서 문제가 발생하기 쉬움
         // 품질이 뛰어난 C++프로그램을 작성하기 위해서는 메모리 내부 작동 방식을 이해하고 있어야 함
         // 이번 시간에는 동적 메모리를 다루는 과정에서 어떤 위험에 빠질 수 있는지 이 상황을
@@ -1228,10 +1228,7 @@ c3 = c3 ^ c1;
             size_t Size = sizeof(int*);
             // char*의 의미는 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 그 값은 char
             size_t Size2 = sizeof(char*);
-            // &의 의미 : 주소를 불러오겠다
-            // new int : 동적할당으로 힙 메모리를 쓰겠다
-            // new int[] : 동적할당으로 힙 메모리를 int [] 개 만큼 쓰겠다
-            // new int{} : 동적할당으로 힙 메모리의 int 값을 {} 로 초기화 하겠다
+          
         }
         {
             // [Stack]                                     // [Heap]
@@ -1246,8 +1243,13 @@ c3 = c3 ^ c1;
             // [Stack]                                      // [Heap]
             // [0xfff...] a(4Byte) = 100
             // [0xfff...] 4Byte padding
-            // [0xfff...] Pointer(8Byte) = 0x100 <---------  [0x100] int [4Byte] = 10
+            // [0xfff...] Pointer(8Byte) = 0x100 <---------  [0x100] int [4Byte] = 10            
             // [0xfff...] b(4Byte) = 20
+            
+            // &의 의미 : 주소를 불러오겠다
+            // new int : 동적할당으로 힙 메모리를 쓰겠다
+            // new int[] : 동적할당으로 힙 메모리를 int [] 개 만큼 쓰겠다
+            // new int{} : 동적할당으로 힙 메모리의 int 값을 {} 로 초기화 하겠다
             Pointer = new int{ 10 };
 
             // [Stack]                                      // [Heap]
@@ -1260,7 +1262,7 @@ c3 = c3 ^ c1;
             // [0xfff...] Read(4Byte) = 999
             int Read = *Pointer;
 
-            // 할당한 메모리를 해제
+            // 할당한 메모리를 해제  new 와 delete 는 세트 사용을 했으니 더 사용하지 않을거라고 선언.
             delete Pointer;
             // int Read2 = *Pointer;
 
@@ -1279,10 +1281,139 @@ c3 = c3 ^ c1;
 
             }
         }   
+        {   // [Stack]                                      // [Heap]
+            // [0xfff...] Pointer(8Byte) = 0x100
+            int* Pointer{ nullptr };
 
+            // [Stack]                                      // [Heap]
+            // [0xfff...] Pointer(8Byte) = 0x100 <--------     [0x100] int [4Byte] = 10
+            Pointer = new int{ 10 };
 
+            // 할당한 메모리를 해제하지 않고 넘어가는 경우 이를,
+            // 메모리 누수(메모리 릭, memory leak)이라고 부릅니다.
+
+            // 동적 할당한 메모리를 다른 주소로 덮어 쓰는 경우에도
+            // 원본 주소를 해제할 수 없다.
+            // Pointer = (int*)10000;
+
+            delete Pointer;
+        }
+        {
+            // C언어를 배우셨다면 malloc을 사용해서 메모리를 할당 했을 텐데,
+            // C++에서도 사용할 수 있습니다.
+            // malloc과 new는 큰 차이가 있습니다.
+            // 아직 배우지는 않았지만, new와 delete는 초기화 및 struct 또는 class에서
+            // 생성자와 소멸자를 호출해주는 역할을 수행합니다.
+            // 그러나, malloc은 순수하게 memory 할당만 해줍니다.
+            // int*를 new로 동적할당 할때는 초기화를 할 수 있었습니다.
+            // 하지만 malloc은 초기화 불가
+            int* Pointer = (int*)malloc(sizeof(int));
+            *Pointer = 1000;
+            free(Pointer);
+        }
+        {
+            // [Stack]                                      // [Heap]
+            // [0xfff...] Pointer(8Byte) = 0x100              0x100 [int][int][int][int][int][int]
+            int* ArrayPointer = new int[6] {0, 1, 2, 3, 4, 5};
+            ArrayPointer[0] = 1000;
+            ArrayPointer[1] = 1200;
+
+            // 0x100 + 0 * sizeof(int) = 0x100
+            *ArrayPointer = 9999;
+            // 0x100 + 1 * sizeof(int) = 0x104
+            *(ArrayPointer + 1) = 8888;
+
+            for (int i = 0; i < 6; ++i)
+            {
+                ArrayPointer[i] = i + 10;
+
+                // Array(int*) + 0    Array + 1      Array + 2         Array + 3
+                // [00 00 00 01]    [00 00 00 02]   [00 00 00 03]     [00 00 00 04]
+                *(ArrayPointer + i) = i;
+            }
+            // 1,2,3, 이렇게 주소로부터 상대적으로 떨어진 위치를 말로 표현할때 offset이라고 함
+
+            *((char*)ArrayPointer + 1) = 255;
+            *((char*)ArrayPointer + 2) = 255;
+            *((char*)ArrayPointer + 3) = 255;
+            *((short*)ArrayPointer + 1) = 9999;
+            *((__int64*)ArrayPointer + 0) = 9999;
+            *((__int64*)ArrayPointer + 1) = 9999;
+            delete[] ArrayPointer;
+
+            // 2차원 이상 배열도 동적 할당으로 구현 가능하나,
+            // 실무에서 거의 쓰지 않음.
+        }
+        {
+            struct FStruct
+            {
+                // 생성자: 인스턴스가 만들어질때 호출되는 함수
+                // __thiscall: 호출하는 쪽에서 파라미터로 자기자신의 주소를 전달
+                FStruct(/*Fstruct* This*/)
+                {
+                    // this + 0Byte -> Value
+                    // this + 4Byte -> Value2
+                    this;
+                    int a = this->Value;
+                    int B = this->Value2;
+                    std::cout << std::format("V: {}, V2: {}\n", this->Value, Value2);
+
+                }
+                FStruct(const int InValue)
+                    // 초기화 순서는 변수를 선언한 순서대로 동작한다
+                    : /*Value2(Value, */ Value(InValue)/*, Value2(Value)*/
+                {
+                    std::cout << std::format("V: {}, V2: {}\n", Value, Value2);
+                }
+                // 소멸자: 인스턴스가 소멸되는 시점에 호출되는 함수
+                // 컴파일러가 소멸예측 지점 (Stack: 스코프를 벗어나는 지점, Heap: delect를 하는 시점
+                // 에 코드에 소멸자를 호출하도록 심어둔다
+                ~FStruct()
+                {
+
+                }
+                int Value = 10;
+                int Value2 = 20;
+            };
+            FStruct Struct;// = FStruct();
+            FStruct Struct2 = FStruct(100);
+
+            FStruct* StructPointer = new FStruct(12);
+            StructPointer->Value = 999;
+            int* Test = (int*)StructPointer + 1;
+            *Test = 888;
+            delete StructPointer;
+
+            {   
+                // malloc은 요청한 size 만큼 메모리 블록만 할당.
+                // new는 요청한 size 만큼 메모리 블럭을 할당 후 초기화(struct 와 같은 경우 생성자 호출)
+                FStruct* MallocStruct = (FStruct*)malloc(sizeof(FStruct));
+
+                // free는 해당 메모리 블록을 할당 해제
+                // delect와 다르게 소멸자는 호출하지 않는다
+                free(MallocStruct);
+            }
+
+            // 저수준의 동적할당은 사용빈도가 줄었다고 했지만,
+            // 포인터는 사용하지 않는날이 없는 수준
+             
+            {
+                int Value = 0;
+                // Function call, 인자 복사
+                // int InValue = Value;
+                // Value = InValue;
+
+                Value = CallByValue(Value);
+
+                FParam Param = FParam();
+                Param.Value[2] = 1234;
+                //FParam InParam = FParam(Param);
+                Param = CallByValue(Param);
+            }
+        }
     }
 #pragma endregion
+
 }
 
 
