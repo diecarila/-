@@ -68,4 +68,39 @@ double AddFunction(const double InA, const double InB);
 	 int A = 999;
  };
  
- FParam CallByValue(FParam InValue);
+ FParam CallByValue(FParam InParam);
+ 
+ void CallByPointer(int* InPointer);
+ void CallByReference(int& InReference);
+ void CallByPointer(FParam* InPointer);
+ void CallByReference(FParam& InREference);
+
+ inline void TestConstructor(FParam* InThis)
+ {
+	 int a = InThis->A;
+ }
+
+ struct FTTest
+ {
+	 FTTest()
+	 {
+		 int* ThisAddress = (int*)this;
+		 int* aAddress = &this->a;
+	 }
+
+	 int a = 200;
+	 int b = 400;
+ };
+
+ inline void TestConstructor(FTTest* InPointer)
+ {
+	 int aa = InPointer->a;
+	 int bb = InPointer->b;
+	 int AA = *((int*)InPointer + 0);
+	 int BB = *((int*)InPointer + 1);
+ }
+ inline void TestConstructor(void* InPointer)
+ {
+	 int AA = *((int*)InPointer + 0);
+	 int BB = *((int*)InPointer + 1);
+ }

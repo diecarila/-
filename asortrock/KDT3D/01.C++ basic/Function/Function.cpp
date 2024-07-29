@@ -92,4 +92,28 @@ FParam::~FParam()
 	std::cout << "~FParam\n";
 }
 
+void CallByPointer(int* InPointer)
+{
+	*InPointer = 1234;
+}
 
+void CallByReference(int& InReference)
+{
+	InReference = 1234;
+}
+
+void CallByPointer(FParam* InPointer)
+{
+	InPointer->Value[0] = 9999;
+	InPointer->Value[5] = 5555;
+	
+	(*InPointer).Value[2] = 2222;
+}
+
+void CallByReference(FParam& InReference)
+{
+	InReference.Value[0] = 9999;
+	InReference.Value[5] = 5555;
+
+	InReference.Value[2] = 2222;
+}

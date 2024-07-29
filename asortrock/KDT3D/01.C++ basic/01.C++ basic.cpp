@@ -1349,7 +1349,7 @@ c3 = c3 ^ c1;
             {
                 // 생성자: 인스턴스가 만들어질때 호출되는 함수
                 // __thiscall: 호출하는 쪽에서 파라미터로 자기자신의 주소를 전달
-                FStruct(/*Fstruct* This*/)
+                FStruct(/*Fstruct* This*/) // this 는 기준을 잡아주는것.
                 {
                     // this + 0Byte -> Value
                     // this + 4Byte -> Value2
@@ -1384,7 +1384,7 @@ c3 = c3 ^ c1;
             *Test = 888;
             delete StructPointer;
 
-            {   
+            {
                 // malloc은 요청한 size 만큼 메모리 블록만 할당.
                 // new는 요청한 size 만큼 메모리 블럭을 할당 후 초기화(struct 와 같은 경우 생성자 호출)
                 FStruct* MallocStruct = (FStruct*)malloc(sizeof(FStruct));
@@ -1396,19 +1396,88 @@ c3 = c3 ^ c1;
 
             // 저수준의 동적할당은 사용빈도가 줄었다고 했지만,
             // 포인터는 사용하지 않는날이 없는 수준
-             
+
             {
                 int Value = 0;
                 // Function call, 인자 복사
                 // int InValue = Value;
                 // Value = InValue;
 
-                Value = CallByValue(Value);
+                Value = CallByValue(Value); // 왜 헤더랑 cpp랑 넣는 이름이 다른지
 
                 FParam Param = FParam();
                 Param.Value[2] = 1234;
                 //FParam InParam = FParam(Param);
                 Param = CallByValue(Param);
+            }
+            {
+                int a = 0;
+                int* Pointer = &a;
+                a = 999;
+                // *Pointer = 1234;
+
+                // int* InPointer = Pointer;
+                // *InPointer = 1234;
+                // *Pointer = 1234;
+                CallByPointer(&a);
+                CallByPointer(Pointer);
+
+                FParam Param = FParam();
+                FParam* ParamPointer = &Param;
+
+                FParam* InPointer = &Param;
+                InPointer->Value[0] = 9999;
+                InPointer->Value[5] = 5555;
+                (*InPointer).Value[0] = 1234;
+                CallByPointer(&Param);
+                CallByPointer(ParamPointer);
+            }
+            {
+                FParam Param; TestConstructor(&Param);
+
+                FTTest TTest;
+                TestConstructor(&TTest);
+
+                int a = 200;
+                int b = 400;
+
+                TestConstructor((void*)&a);
+            }
+            {
+                // 레퍼런스, 참조
+
+                // 포인터와 레퍼런스의 차이
+
+                int a = 5;
+                int* Pointer = &a; // 대상을 a로 변경
+                *Pointer = 100;    // a의 값이 변경됨
+
+                // Pointer는 가리키던 대상을 바꿀 수 있다.
+                int b = 999;
+                Pointer = &b;     // 대상을 b로 변경
+                *Pointer = 1234;  // b의 값이 변경됨
+
+                int* const PointerLikeReference = &a;
+                // PointerLikeReference = &b; // * 오른쪽에 const가 붙으면 가르키던 대상을 바꿀 수 없다
+                *PointerLikeReference = 10000;
+                const int* ConstPointer = &a; // * 왼쪽에 const가 붙으면 가르키던 대상의 값을 바꿀 수 없다
+                // *ConstPointer = 9999;
+                ConstPointer = &b;
+
+                const int* const PointerCantChange = &a; // 둘 다 변경 불가
+                /*PointerCantChange = &b;
+                *PointerCantChange = 1000;*/
+
+                int& Reference = a; // 처음 초기화 시점에 반드시 대상이 와야하며, 이후 변경할 수 없다.
+                Reference = b;      // 주소가 바뀌는 것이 아니라, 처음 연동한 a의 값이 b에 있는 값(1234)로 변경
+                // Reference = &b;  // 이후 가르키던 주소를 변경할 수 없다.
+
+                int TestValue = 0;
+                CallByReference(TestValue);
+                CallByPointer(&TestValue);
+
+                FParam Param;
+                CallByReference(Param);
             }
         }
     }
