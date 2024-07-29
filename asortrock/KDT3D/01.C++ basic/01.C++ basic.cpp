@@ -31,6 +31,7 @@
 #include <iostream>
 #include <format>
 #include "Function/Function.h"
+#include <array>
 
 
 int Glnt = 0;
@@ -1039,6 +1040,39 @@ c3 = c3 ^ c1;
             Array[2] = 3;
             Array[3] = 4;
             Array[4] = 5;
+
+            int Size = sizeof(int);   // 4Byte
+            int Size2 = sizeof(Size); // 4Byte
+            int ArraySize = sizeof(Array); // 20Byte : int(4) * 갯수
+            int ArrayElemSize = sizeof(Array[0]); // 4Byte
+            int ArrayElemCount = ArraySize / ArrayElemSize; // 20 / 4 = 5
+        }
+        // 2차원 배열
+        {
+            // Array[0][0] Array[0][1] Array[1][0] Array[1][1] Array[1][2]
+            int Array[2][3]{};    
+            Array[0][0] = 0;
+            Array[0][1] = 1;
+            Array[0][2] = 2;
+            Array[1][0] = 3;
+            Array[1][1] = 4;
+            Array[1][2] = 5;
+
+        }
+
+        // 1차원 배열 (std::array)
+        {
+
+            std::array<int, 5> Array{ 0,5,3,1,5 }; // include <array>
+            Array[0] = 0;
+            Array[1] = 1;
+            Array[2] = 2;
+            Array[3] = 3;
+            Array[4] = 4;
+
+            // typedef unsigned __int64 size_t;
+            // typerdef는 왼쪽에 있는 타입을 오른쪽에 있는 이름으로 바꿈
+            size_t Size = Array.size();
         }
     }
 #pragma endregion
@@ -1072,10 +1106,181 @@ c3 = c3 ^ c1;
 
         // for
         {
-            
+            // 초기화; 판별식; for문이 끝나고 실행될 코드
+            for (int i = 0, j = 5; i < 5; ++i, ++j, FirstTrue())
+            {
+                std::cout << std::format("i:{},j:{}\n", i, j);
+            }
+        }   // int i = 10;
+
+        const int Size = 6;
+        int Array[Size]{};
+        for (int i = 0; i < Size; ++i)
+        {
+            // Array[0] = 0;
+            // Array[1] = 1;
+            Array[i] = i;
         }
 
         // 범위기반 for(range based for)
+        for (int i : Array)
+        {
+            std::cout << i << std::endl;
+        }
+        
+        std::array<int, Size> StdArray{};
+        size_t ArraySize = StdArray.size();
+        for (size_t i = 0; i < ArraySize; ++i)
+        {
+
+            StdArray[i] = i;
+        }
+
+        for (int i : StdArray)
+        {
+            std::cout << std::format("i값은:{}\n", i);
+        }
+
+        // CTAD(class template argument deduction: 클래스 템플릿 인수 추론
+        // C++20
+        for (std::array Array2{ 1,2,3 }; int i : Array2)
+        {
+            std::cout << std::format("i값은: {}\n", i);
+        }
+        // Array2;
+
+        // 추가적으로, if 도 조건문 이전에 int i = 0; 와 같이 초기화 구문을 넣을 수 있다.
+        if(int i = 0; i < 10)
+        {
+
+        }
+    }
+#pragma endregion
+#pragma region 14. 포인터 동적 할당(pointer매우중요, dynamic allocation) + 레퍼런스
+    {
+        // 메모리 할당과 이를 관리하는 것은 C++프로그래밍에서 문제가 발생하기 쉬움
+        // 품질이 뛰어난 C++프로그램을 작성하기 위해서는 메모리 내부 작동 방식을 이해하고 있어야 함
+        // 이번 시간에는 동적 메모리를 다루는 과정에서 어떤 위험에 빠질 수 있는지 이 상황을
+        // 해결하거나 방지하는 방법을 알아보자.
+
+        // low-lever(저수준; 낮은수준) 메모리 연산 방법은 new, new[], delete, delete[]
+        // 또는 C스타일의 malloc(memory allocation), free라는 함수를 사용하는 방법이 있다
+        // 요즘 와서는 로우레벨 메모리 연산을 최대한 피하는 추세
+        // ex) 표준 라이브러리에서 제공하는 vector라는 컨테이너(동적 배열)이 있는데
+        // 이를 사용하면 필요할 때 메모리를 늘리거나 줄일 수 있다
+        // 또는 동적으로 할당한 메모리를 사용하지 않으면 자동으로 해제해주는 shard_ptr 등의
+        // 스마트 포인터를 사용하기도 한다
+
+        // 동적 메모리를 이용하면 컴파일 시간에 크기를 확정할 수 없는 데이터를 다룰 수 있다
+        {
+            // 지역변수는 시작과 끝 스코프({}) 내부에서 선언되는 변수를 의미합니다.
+
+            // 유저 영역의 메모리 공간은 크게 4구획을 나누어 져있다고 생각하시면 편합니다.
+            // [코드 영역]   : 소스코드가 기계어로 변환되어 실제 로직을 수행하는 코드 정보
+            // [데이터 영역] : 전역변수, static변수 등
+            // [Heap]        : 동적 할당 (아직 배우지 않음)
+            // [Stack]       : 지역 변수
+
+
+            // [프로그램의 메모리 구조]
+            // ---------------- 소스 코드 영역 -------------
+            // ... 여러분 또는 누군가가 작성해둔 코드가 어셈으로 기록되어 있다
+            // -----------------데이터 영역 ----------------
+            // ... 전역변수, static(정적) 변수
+            // ----------------- Heap 영역 -----------------
+            // ... 동적 할당 (실행 중에 메모리 요청을 하는 것)
+            // ..
+            // ..
+            // 
+            // 
+            // .. 
+            // // 지역 변수, 함수 호출 이후 복귀 주소 등
+            // --------------- Stack 영역 ------------------
+
+            // 실행시간(런타임)에 동적으로 메모리 공간이 필요한 경우 OS
+            // 에 메모리를 요청해야 하는데, 이런 과정에서 커널에 요청할 필요 o
+            // 커널은 OS 중 항상 메모리에 올라가 있는 운영체제의 핵심으로, 하드웨어와 응용프로그램
+            // 사이에서 인터페이스 역할을 제공합니다.
+            // 커널에 요청하는 경우 이를 system call 이라고 합니다. (메모리 할당을 할때마다 system call이 발생
+            // 하지는 않을 수 있다)
+            // 이 system call은 유저 영역과 커널 영역을 넘나드는 호출로서 상당한 비용을 지불하게 된다
+        }
+        {
+            // 64비트 환경에서는 포인터의 크기가 8Byte
+            // 32비트 환경에서는 포인터의 크기가 4Byte
+            // [Stack}
+            // [0xfff] Pointer(8Byte;64bit 기준) = nullptr
+
+            // Pointer 변수는 주소를 들고 있을 것이다.
+            // 그리고, 그 주소로 접근하면 int 변수가 있을 것이다.
+            int* Pointer{ nullptr }; // 실제 값은 0, 프로그래머를 위해서 0을
+            // 쓰는 것 보다 nullptr 을 넣어주면 더 명확하게 의미 전달 가능
+
+            // 포인터의 크기는 플랫폼 bit수에 대응해서 변경됩니다
+            // 32bit라면 최대 표현 가능한 주소가 unsigned int 범위에 해당
+            // 즉 4byte 만 있으면 모든 32bit 주소를 표한 가능
+            // 64bit 라면 총 8Byte로 모든 주소를 표현 할 수 있다.
+
+            // [Stack]
+            // [0xfff..] Size (8Byte; size_t 의 크기가 64bit에서는 8Byte)
+            // [0xfff..] Size2
+            // int*의 의미는 지금 내가 가지고 있는 주소(*)로 가면 그 값은 int다
+            size_t Size = sizeof(int*);
+            // char*의 의미는 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 그 값은 char
+            size_t Size2 = sizeof(char*);
+            // &의 의미 : 주소를 불러오겠다
+            // new int : 동적할당으로 힙 메모리를 쓰겠다
+            // new int[] : 동적할당으로 힙 메모리를 int [] 개 만큼 쓰겠다
+            // new int{} : 동적할당으로 힙 메모리의 int 값을 {} 로 초기화 하겠다
+        }
+        {
+            // [Stack]                                     // [Heap]
+            // [0xfff...] a(4Byte) = 100
+            // [0xfff...] 4Byte padding
+            // [0xfff...] Pointer(8Byte) = nullptr
+            // [0xfff...] b(4Byte) = 20
+            int a = 100;
+            int* Pointer{ nullptr };
+            int b = 20;
+
+            // [Stack]                                      // [Heap]
+            // [0xfff...] a(4Byte) = 100
+            // [0xfff...] 4Byte padding
+            // [0xfff...] Pointer(8Byte) = 0x100 <---------  [0x100] int [4Byte] = 10
+            // [0xfff...] b(4Byte) = 20
+            Pointer = new int{ 10 };
+
+            // [Stack]                                      // [Heap]
+            // [0xfff...] Pointer(8byte) = 0x100 <---------   [0x100] int[4Byte] = 10 -> 999
+            // 이곳에 붙은 포인터 기호는 역참조 연산이라고 이야기 한다
+            *Pointer = 999;
+
+            // [Stack]                                      // [Heap]
+            // [0xfff...] Pointer(8Byte) = 0x100 <---------   [0x100] int[4Byte] = 999
+            // [0xfff...] Read(4Byte) = 999
+            int Read = *Pointer;
+
+            // 할당한 메모리를 해제
+            delete Pointer;
+            // int Read2 = *Pointer;
+
+            // https://en.wikipedia.org/wiki/Magic_number_(programming)
+            {
+             // [Stack]                                      // [Heap]
+             // [0xffffff0] a(4Byte) = 100
+             // ...
+             // [0xfff...] Pointer2(8Byte) = 0xffffff0;
+                int* Ponter2 = &a;
+                std::cout << std::format("Pointer2: {:X} &a: {:X}, *Pointer2: {}, a: {}\n", (size_t)Ponter2, (size_t)&a, *Ponter2, a);
+                *Ponter2 = 1234;
+
+                std::cout << std::format("Pointer2: {:X} &a: {:X}, *Pointer2: {}, a: {}\n", (size_t)Ponter2, (size_t)&a, *Ponter2, a);
+                // int* Ponter3 = (int*)0xFFFFFFFFFFF;
+
+            }
+        }   
+
+
     }
 #pragma endregion
 }
@@ -1084,10 +1289,7 @@ c3 = c3 ^ c1;
 
 
 
-// &의 의미 : 주소를 불러오겠다
-// new int : 동적할당으로 힙 메모리를 쓰겠다
-// new int[] : 동적할당으로 힙 메모리를 int [] 개 만큼 쓰겠다
-// new int{} : 동적할당으로 힙 메모리의 int 값을 {} 로 초기화 하겠다
+
 
 
 
