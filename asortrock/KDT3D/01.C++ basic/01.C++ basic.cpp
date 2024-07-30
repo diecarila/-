@@ -273,8 +273,12 @@ int main()
 			int Int5 = Short; // 묵시적 casting
 			// int가 short 보다 크고, 둘 다 정수 타입이라 경고 안 뜸.
 
-			/*int Int6 = 999999;
-			short Short1 = Int6;*/ // 값이 잘림!, 경고도 발생하지 않는데 주의해서 사용 해야 겠습니다.
+			int Int6 = 999999;
+			short Short1 = Int6; // 값이 잘림!, 경고도 발생하지 않는데 주의해서 사용 해야 겠습니다.
+			
+			double D = 3.1415;
+			int i1 = D;
+
 		}
 
 	}
@@ -1493,10 +1497,89 @@ int main()
 				FParam Param;
 				CallByReference(Param);
 			}
+			{
+
+				// 매크로로 조건문은 사용 안 하는것을 권장
+				int* Pointer = nullptr;
+				FunctionWithPointer(Pointer);
+				int a = 10;
+				FunctionWithPointer(&a);
+
+				if (Pointer == nullptr)
+				{
+					Pointer = new int{ 5 };
+					FunctionWithPointer(Pointer);
+
+					int* PointerB = Pointer;
+					SAFE_DELETE(Pointer);
+					FunctionWithPointer(Pointer);
+
+					// PointerB는 댕글링 포인터
+					// 이미 delete 된 메모리 주소를 들고있는 상황
+				}
+				{
+					int* PointerB = new int{ 5 };
+					int& ReferenceB = *PointerB;
+					ReferenceB = 999;
+					*PointerB = 1234;
+					SAFE_DELETE(PointerB);
+					FunctionWithReference(ReferenceB);
+				}
+			}
+			{
+			}
+			{
+				int a = 10, b = 20;
+				Swap(&a, &b);
+			}
+			{
+				std::array Numbers{ 1,2,3,4,5,6,7,8,9,10 };
+				std::vector<int> Odds, Evens;
+				SeperateOddsAndEvens(Numbers, Odds, Evens);
+			}
+
 		}
 	}
 #pragma endregion
+#pragma region 15. SmartPointer 중요
+	{
+		using namespace std; // std 안 붙여도됨.
+		// unique_ptr
+		{
+			// unique_ptr 생성 및 역참조
+			// 소멸자 호출이 되면서 Heap memory를 delete 한다.
+			{
+ 				unique_ptr<int> Unique = make_unique<int>(100);
+				*Unique = 1000;
+			}
+			// 다른 unique_ptr에 대입을 할 수 없다.
+			{
+				unique_ptr<int> Unique = make_unique<int>(100);
+				*Unique = 1000;
+				// unique_ptr<int> Unique2 = Unique; 이게 안됨 
+				int* Pointer = Unique.get();
+				*Pointer = 999; // Unique 값도 바뀜.
+				CallByPointer(Unique.get());
+				TestUnique(Unique);
+				TestUnique(&Unique);
+			
+			}
 
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+	}
 }
 
 

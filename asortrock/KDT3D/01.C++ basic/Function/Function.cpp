@@ -106,7 +106,7 @@ void CallByPointer(FParam* InPointer)
 {
 	InPointer->Value[0] = 9999;
 	InPointer->Value[5] = 5555;
-	
+
 	(*InPointer).Value[2] = 2222;
 }
 
@@ -116,4 +116,80 @@ void CallByReference(FParam& InReference)
 	InReference.Value[5] = 5555;
 
 	InReference.Value[2] = 2222;
+}
+
+void TestUnique(std::unique_ptr<int>& OutUnique)
+{
+	*OutUnique += 100;
+}
+
+void TestUnique(std::unique_ptr<int>* OutUnique)
+{
+	*(*OutUnique) += 100;
+}
+#include <cassert>
+void FunctionWithPointer(int* OutPointer)
+{
+	// debug 모드일 때 동작하는 assert는
+	// 프로그래머의 명백한 실수를 탐지하기 위해서 사용
+
+	// if (OutPointer == nullptr) // 만약 nullptr 이라면
+	if (!OutPointer) // 0 -> !0 -> 1
+	{
+		// 실습 실행할때 assert가 동작해서 주석 처리
+		// _ASSERT(false);
+		return;
+	}
+
+	*OutPointer += 100;
+}
+
+void FunctionWithReference(int& OutPointer)
+{
+	OutPointer += 100;
+}
+
+//void swap(int& inoutfirst, int& inoutsecond)
+//{
+//	// temp = inoutfirst(20)
+//	const int temp = inoutfirst;
+//
+//	// inoutfirst = 10(b);
+//	inoutfirst = inoutsecond;
+//
+//	// inoutsecond = 20(temp; a)
+//	inoutsecond = temp;
+//}
+
+void SeperateOddsAndEvens(const std::array<int, 10>& const InNumbers,
+	std::vector<int>& const OutOdds, std::vector<int>& const OutEvens)
+{
+	for (int Value : InNumbers)
+	{
+		std::cout << Value << std::endl;
+
+		// 홀수 판정
+		// 1 / 2 : 몫 :0 나머지:1 => 홀수
+		// 2 / 2 : 몫 :1 나머지:0 => 짝수
+		if (Value % 2 == 1) //홀수
+		{
+			OutOdds.push_back(Value);
+		}
+		else if (Value % 2 == 0) // 짝수
+		{
+			OutEvens.push_back(Value);
+		}
+		else
+		{
+			// 혹시 여기 들어오면 한번 쯤 봐야겠다,,,
+			_ASSERT(false);
+		}
+	}
+}
+
+void Swap(int* Pointer, int* Pointer2)
+{	
+	int temp = *Pointer;
+	*Pointer = *Pointer2;
+	*Pointer2 = temp;
 }

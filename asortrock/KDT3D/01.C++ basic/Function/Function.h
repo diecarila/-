@@ -70,10 +70,12 @@ double AddFunction(const double InA, const double InB);
  
  FParam CallByValue(FParam InParam);
  
- void CallByPointer(int* InPointer);
- void CallByReference(int& InReference);
- void CallByPointer(FParam* InPointer);
- void CallByReference(FParam& InREference);
+ void CallByPointer(int* OutPointer);
+ void CallByReference(int& OutReference);
+ void CallByPointer(FParam* OutPointer);
+ void CallByReference(FParam& OutREference);
+ void TestUnique(std::unique_ptr<int>& OutUnique);
+ void TestUnique(std::unique_ptr<int>* OutUnique);
 
  inline void TestConstructor(FParam* InThis)
  {
@@ -104,3 +106,29 @@ double AddFunction(const double InA, const double InB);
 	 int AA = *((int*)InPointer + 0);
 	 int BB = *((int*)InPointer + 1);
  }
+ 
+ void FunctionWithPointer(int* OutPointer);
+ void FunctionWithReference(int& OutPointer);
+
+ // 매크로라고 하고
+ // 왼쪽에 있는 이름으로 사용하고, 이는 오른쪽으로 대체된다
+#define SAFE_DELETE(Var) delete Var;\
+	Var = nullptr;
+
+  //void Swap(int* InOutFirst, int* InOutSecond);
+ 
+ 
+
+
+#include<array>
+#include<vector>>
+
+ // 입력으로 들어온 수들을 짝수 홀수로 구분해서 OutOdds와 OutEvens에 저장해서 반환
+ // const std::array<int, 10>* const InNumbers: 입력으로 들어올 숫자들
+ // OutOdds : 홀수
+ // OutEvens : 짝수
+ 
+ void SeperateOddsAndEvens(const std::array<int, 10>& const InNumbers,
+	 std::vector<int>& const OutOdds, std::vector<int>& const OutEvens);
+
+ void Swap(int* Pointer, int* Pointer2);
