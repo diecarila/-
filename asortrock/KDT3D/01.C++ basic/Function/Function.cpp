@@ -118,7 +118,7 @@ void CallByReference(FParam& InReference)
 	InReference.Value[2] = 2222;
 }
 
-void TestUnique(std::unique_ptr<int>& OutUnique)
+void TestUnique(std::unique_ptr<int>& OutUnique) // ¿Ã ∫Œ∫–
 {
 	*OutUnique += 100;
 }
@@ -126,6 +126,26 @@ void TestUnique(std::unique_ptr<int>& OutUnique)
 void TestUnique(std::unique_ptr<int>* OutUnique)
 {
 	*(*OutUnique) += 100;
+}
+void TestShared(std::shared_ptr<int>& OutShared)
+{
+	int* Pointer = OutShared.get();
+	*OutShared += 100;
+}
+void TestWeak(std::weak_ptr<FParam> OutWeak)
+{
+	if (OutWeak.expired())
+	{
+		// _ASSERT(false);
+		return;
+	}
+
+	std::shared_ptr<FParam> Shared = OutWeak.lock();
+	FParam* Sharedd = Shared.get();
+	long Count = Shared.use_count();
+	Sharedd->A;
+	Shared->A;
+	OutWeak.lock()->A += 1234;
 }
 #include <cassert>
 void FunctionWithPointer(int* OutPointer)
@@ -192,4 +212,9 @@ void Swap(int* Pointer, int* Pointer2)
 	int temp = *Pointer;
 	*Pointer = *Pointer2;
 	*Pointer2 = temp;
+}
+
+void SharedTestFunction(std::shared_ptr<FSharedTest> InShared)
+{
+	InShared->A = 0;
 }

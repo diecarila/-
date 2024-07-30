@@ -76,6 +76,8 @@ double AddFunction(const double InA, const double InB);
  void CallByReference(FParam& OutREference);
  void TestUnique(std::unique_ptr<int>& OutUnique);
  void TestUnique(std::unique_ptr<int>* OutUnique);
+ void TestShared(std::shared_ptr<int>& OutShared);
+ void TestWeak(std::weak_ptr <FParam> OutWeak);
 
  inline void TestConstructor(FParam* InThis)
  {
@@ -132,3 +134,17 @@ double AddFunction(const double InA, const double InB);
 	 std::vector<int>& const OutOdds, std::vector<int>& const OutEvens);
 
  void Swap(int* Pointer, int* Pointer2);
+
+ struct FSharedTest : public std::enable_shared_from_this<FSharedTest>
+ {
+	 FSharedTest() {}
+	 FSharedTest(int InA) : A(InA) {}
+	 
+	 void Hello()
+	 {
+		 std::cout << "Hello" << A << std::endl;
+	 }
+	 int A = 100;
+ };
+
+ void SharedTestFunciton(std::shared_ptr<FSharedTest> InShared);

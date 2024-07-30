@@ -1,5 +1,4 @@
 ﻿// 솔루션 탐색기 -> 모든 파일 표시로 변경
-
 // 프로젝트 우클릭 > 속성 -> 중간 디렉터리, 출력 디렉터리 변경
 // 프로젝트 우클릭 -> 속성 -> c++20
 
@@ -275,7 +274,7 @@ int main()
 
 			int Int6 = 999999;
 			short Short1 = Int6; // 값이 잘림!, 경고도 발생하지 않는데 주의해서 사용 해야 겠습니다.
-			
+
 			double D = 3.1415;
 			int i1 = D;
 
@@ -1549,7 +1548,7 @@ int main()
 			// unique_ptr 생성 및 역참조
 			// 소멸자 호출이 되면서 Heap memory를 delete 한다.
 			{
- 				unique_ptr<int> Unique = make_unique<int>(100);
+				unique_ptr<int> Unique = make_unique<int>(100);
 				*Unique = 1000;
 			}
 			// 다른 unique_ptr에 대입을 할 수 없다.
@@ -1562,24 +1561,91 @@ int main()
 				CallByPointer(Unique.get());
 				TestUnique(Unique);
 				TestUnique(&Unique);
-			
+
+
+				// 소유권 이전을 통해서  unique_ptr 전달 가능  move 로 옮기면 값은 empty
+				unique_ptr<int> Unique2 = std::move(Unique);
+				int* Pointer2 = Unique.get();
+				int* Pointer3 = Unique2.get();
+
+				// GUnique = move(Unique2);
 			}
-
-
-
-
-
-
 		}
+		// int* Test222 = GUnique.get();
 
+		// shared_ptr
+		{
+			// 레퍼런스 카운팅 방식으로, 참조 횟수를 저장하고 있다가
+			// 0이되면 실제로 Memory를 delete 한다
+			shared_ptr<int> SharedPtr;
+			{
+				shared_ptr<int> Shared = make_shared<int>(100);
+				long Count = Shared.use_count();      // 왜 long 이지?
+				shared_ptr<int> Shared2 = Shared;     // 얘는 대입이 됨
+				long Count2 = Shared.use_count();
+				SharedPtr = Shared;
+				long Count3 = Shared.use_count();
 
+				TestShared(Shared);
+			}
+			long Count4 = SharedPtr.use_count();
+			{
+				shared_ptr<FParam> Shared = make_shared<FParam>();
+				shared_ptr<FParam> Shared2 = Shared;
+			}
+			{
+				std::array<shared_ptr<FParam>, 10> Vector;
+				for (size_t i = 0; i < 10; ++i)
+				{
+					Vector[i] = make_shared<FParam>();
+				}
+			}
+		}
+		
+		// shared_ptr + weak_ptr
+		{	
+			weak_ptr<FParam> Weak;
+			{
+				shared_ptr<FParam> Shared = make_shared<FParam>();
+				shared_ptr<FParam> Shared2 = Shared;
+				Weak = Shared;
+				TestWeak(Shared);
+				TestWeak(Weak);
+			}
+			
+			if (!Weak.expired())
+			{
+				cout << "";
+			}
+			TestWeak(Weak);
+		}
+		// shared_ptr -> .get()으로 Pointer를 뽑아온 다음에
+		// 그 Pointer를 다시 shared_ptr로 바꾸는 방법
+		{
+			shared_ptr<FSharedTest> Shared = make_shared<FSharedTest>(1234);
 
+			{
+				FSharedTest* Test = Shared.get();
+				Test->Hello();
+				Test->A = 123456;
+				Test->Hello();
+				shared_ptr<FSharedTest> SharedTest = Test->shared_from_this();
+				SharedTestFunciton(SharedTest);
+				Test->Hello();
+				SharedTestFunciton(Test->shared_from_this());
 
-
-
-
-
+				weak_ptr<FSharedTest> WeakTest = Test->weak_from_this();
+				SharedTest.reset(); // reset을 한다고 하더라도 delete 되는것이 아니다 (해당 인스턴스의) 참조만 까는 것이다.
+				Shared = nullptr; // 모든 참조가 nullptr 또는 reset 되어야 memory가 해제된다
+				// 따라서 내가 원하는 시점에 delete 하기는 번거롭다
+				if (WeakTest.expired())
+				{
+					std::cout << "expired\n";
+				}
+			}
+		}
 	}
+#pragma endregion
 }
 
 
