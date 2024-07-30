@@ -118,7 +118,7 @@ void CallByReference(FParam& InReference)
 	InReference.Value[2] = 2222;
 }
 
-void TestUnique(std::unique_ptr<int>& OutUnique) // 이 부분
+void TestUnique(std::unique_ptr<int>& OutUnique) // 이 부분 이 부분이 포인터라 그런가?
 {
 	*OutUnique += 100;
 }
@@ -214,7 +214,8 @@ void Swap(int* Pointer, int* Pointer2)
 	*Pointer2 = temp;
 }
 
-void SharedTestFunction(std::shared_ptr<FSharedTest> InShared)
+void SharedTestFunciton(std::shared_ptr<FSharedTest> InShared)
 {
 	InShared->A = 0;
 }
+
