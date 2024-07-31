@@ -1847,7 +1847,7 @@ int main()
 					std::cout << std::format("A: {}, B: {}\n", a, b);
 				}
 				
-				void SetA(const int NewA)
+				void SetA(const int NewA) // 원래 this 가 들어오는건데 생략이 가능함
 				{
 					this->a = NewA;
 				}
