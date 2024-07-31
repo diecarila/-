@@ -5,10 +5,7 @@
 
 int main()
 {
-	while (true)
-	{
-	}
-
+	std::cout << "Hello World!" << std::endl;
 
 	//// 자료형 (크기단위 byte)
 	//// 정수형 : char(1), short(2), int(4), long(4), long long(8)
