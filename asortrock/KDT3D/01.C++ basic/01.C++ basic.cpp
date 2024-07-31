@@ -1564,7 +1564,7 @@ int main()
 				TestUnique(&Unique);
 
 
-				// 소유권 이전을 통해서  unique_ptr 전달 가능  move 로 옮기면 값은 empty
+				// 소유권 이전을 통해서  unique_ptr 전달 가능   move로 옮기면 move값은 empty
 				unique_ptr<int> Unique2 = std::move(Unique);
 				int* Pointer2 = Unique.get();
 				int* Pointer3 = Unique2.get();
@@ -1765,6 +1765,126 @@ int main()
 		ValueToString += " Float: " + std::to_string(Float);
 
 		std::cout << ValueToString << std::endl;
+	}
+	// 다국어 처리
+	{
+		// UTF-8
+		std::string MultipleLanguage = "Hello 한글 安寗\n";
+		MultipleLanguage[6] = '갈';
+
+		// UTF-16 모든 언어를 2바이트   유니코드 앞에 L 부동소수점 뒤에 f
+		wchar_t WideCharacter = L'갈';
+		std::wstring WString = L"Hello 한글 安寗\n";
+		WString[6] = L'갈';
+		//std::wstring WString = Text("Hello 한글 安寗\n");
+
+		if (WString[6] == L'갈')
+		{
+
+		}
+	}
+#pragma endregion
+#pragma region 21. Class(클래스)별 5개
+	{
+		// 구조체 : 함수랑 변수를 묶어서 관리
+		struct FStruct
+		{
+			// 접근지정자
+			// 기본 접근지정자: public
+		public:          // 다른 접근지정자를 만날 때 까지 유지
+			
+			// 생성자 : 인스턴스가 만들어질때 호출
+			//        - 전역변수(Data): 프로그램이 시작할 때
+			//		  - 지역변수(Stack): FStruct Instance; 이 코드가 실행되는 시점
+			//        - 동적할당(Heap): new를 호출하는 경우
+			FStruct()
+			{
+				a = 1234;
+				this->b = 6666;
+			}
+			// 소멸자 : 인스턴스의 수명이 끝날 때 호출
+			//        - 전역변수(Data): 프로그램이 종료되기 전
+			//        - 지역변수(StacK): 스코프({})를 벗어나는 경우
+			//        - 동적할당(Heap): delete를 호출하는 경우
+			~FStruct()
+			{
+
+			}
+			
+			int a = 0;
+		private:     // 외부에서는 접근 불가
+			int b = 20;
+		};
+
+		// Code 영역에 함수
+		// 생성자() 코드
+		// 소멸자() 코드
+
+		// instance는
+		// [int a = 0]
+		// [int b = 20]
+		FStruct Instance;
+		Instance.a = 999;
+		// Instance.b = 1234; private라서 안됨
+
+		class FClass
+		{
+			// 접근지정자
+			// 기본 접근지정자: private
+			public:
+				FClass()
+				{
+				}
+
+				FClass(const int NewB)
+					: b(NewB) {}
+				
+				~FClass() {}
+
+				void Hello()
+				{
+					SetB(999);
+					std::cout << std::format("A: {}, B: {}\n", a, b);
+				}
+				
+				void SetA(const int NewA)
+				{
+					this->a = NewA;
+				}
+
+				[[nodiscard]] int GetA() const
+				{
+					// 함수 선언 뒤에 const를 붙히면
+					// this pointer가 const this*로 된다.
+					// 즉 맴버 변수를 수정할 수 없고
+					// 맴버 함수는 const가 동일하게 붙어있는 맴버 함수만 호출 할 수 있다.
+					// SetA(10);
+					// int bb = GetB();
+
+					return this->a;
+				}
+				[[nodiscard]] int GetB() const
+				{
+					return b;
+				}
+		private:
+			void SetB(const int NewB)
+			{
+				b = NewB;
+			}
+				int a = 0;
+				int b = 10;
+		};
+
+		FClass ClassInstance;
+		ClassInstance.SetA(100);
+		int A = ClassInstance.GetA(); // .GetA() 즉 100의 값이 int A
+		int B = ClassInstance.GetB(); // .GetB() 즉 10의 값이 int B
+		FClass ClassInstance2 = FClass(1234);
+		int B2 = ClassInstance2.GetB();
+		ClassInstance2.Hello();
+		B2 = ClassInstance2.GetB();
+		
 	}
 #pragma endregion
 }
