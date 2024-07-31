@@ -219,3 +219,62 @@ void SharedTestFunciton(std::shared_ptr<FSharedTest> InShared)
 	InShared->A = 0;
 }
 
+FOddsAndEvens SeperateOddsAndEvens(const std::array<int, 10>& const InNumbers)
+{
+	// RVO
+	std::vector<int> Odds, Evens;
+	
+		for (int Value : InNumbers)
+		{
+			std::cout << Value << std::endl;
+
+			// È¦¼ö ÆÇÁ¤
+			// 1 / 2 : ¸ò :0 ³ª¸ÓÁö:1 => È¦¼ö
+			// 2 / 2 : ¸ò :1 ³ª¸ÓÁö:0 => Â¦¼ö
+			if (Value % 2 == 1) //È¦¼ö
+			{
+				Odds.push_back(Value);
+			}
+			else if (Value % 2 == 0) // Â¦¼ö
+			{
+				Evens.push_back(Value);
+			}
+			else
+			{
+				// È¤½Ã ¿©±â µé¾î¿À¸é ÇÑ¹ø Âë ºÁ¾ß°Ú´Ù,,,
+				_ASSERT(false);
+			}
+		}
+		return FOddsAndEvens(Odds, Evens);
+}
+
+FOddsAndEvens SeperateOddsAndEvens2(const std::array<int, 10>& const InNumbers)
+{
+	// NRVO
+
+	FOddsAndEvens OddsAndEvens;
+
+	for (int Value : InNumbers)
+	{
+		std::cout << Value << std::endl;
+
+		// È¦¼ö ÆÇÁ¤
+		// 1 / 2 : ¸ò :0 ³ª¸ÓÁö:1 => È¦¼ö
+		// 2 / 2 : ¸ò :1 ³ª¸ÓÁö:0 => Â¦¼ö
+		if (Value % 2 == 1) //È¦¼ö
+		{
+			OddsAndEvens.Odds.push_back(Value);
+		}
+		else if (Value % 2 == 0) // Â¦¼ö
+		{
+			OddsAndEvens.Evens.push_back(Value);
+		}
+		else
+		{
+			// È¤½Ã ¿©±â µé¾î¿À¸é ÇÑ¹ø Âë ºÁ¾ß°Ú´Ù,,,
+			_ASSERT(false);
+		}
+	}
+	return OddsAndEvens;
+}
+

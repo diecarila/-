@@ -113,17 +113,17 @@ double AddFunction(const double InA, const double InB);
  void FunctionWithReference(int& OutPointer);
 
  // 매크로라고 하고
- // 왼쪽에 있는 이름으로 사용하고, 이는 오른쪽으로 대체된다
+ // 왼쪽에 있는 이름으로 사용하고, 이는 오른쪽으로 대체된다 완전 그대로 옴
 #define SAFE_DELETE(Var) delete Var;\
 	Var = nullptr;
 
-  //void Swap(int* InOutFirst, int* InOutSecond);
+
  
  
 
 
 #include<array>
-#include<vector>>
+#include<vector>
 
  // 입력으로 들어온 수들을 짝수 홀수로 구분해서 OutOdds와 OutEvens에 저장해서 반환
  // const std::array<int, 10>* const InNumbers: 입력으로 들어올 숫자들
@@ -134,10 +134,11 @@ double AddFunction(const double InA, const double InB);
 	 std::vector<int>& const OutOdds, std::vector<int>& const OutEvens);
 
  void Swap(int* Pointer, int* Pointer2);
-
+				
+					// 상속: 쉽게 생각해서 누군가 이미 만들어둔 기능을 내가 가져와서 쓰겠다
  struct FSharedTest : public std::enable_shared_from_this<FSharedTest>
  {
-	 FSharedTest() {}
+	 FSharedTest() {}   // 생성자
 	 FSharedTest(int InA) : A(InA) {}
 	 
 	 void Hello()
@@ -148,3 +149,28 @@ double AddFunction(const double InA, const double InB);
  };
 
  void SharedTestFunciton(std::shared_ptr<FSharedTest> InShared);
+
+ struct FOddsAndEvens
+ {
+	 FOddsAndEvens() {}
+	 FOddsAndEvens(std::vector<int>& InOdds, std::vector<int>& InEvens)
+		 : Odds(move(InOdds)), Evens(move(InEvens)) {}
+
+	 FOddsAndEvens(const FOddsAndEvens&)
+	 {
+		 std::cout << "FOddsAndEvens(const FOddsAndEvens&)\n";
+	 }
+
+	 void operator=(const FOddsAndEvens&)
+	 {
+		 std::cout << "operator=(const FOddsAndEvens&)\n";
+	 }
+	 std::vector<int> Odds;
+	 std::vector<int> Evens;
+ };
+ // RVO
+ [[nodiscard("RVO")]] FOddsAndEvens SeperateOddsAndEvens(const std::array<int, 10>& const InNumbers);
+
+ // NRVO
+ [[nodiscard("RVO")]] FOddsAndEvens SeperateOddsAndEvens2(const std::array<int, 10>& const InNumbers);
+

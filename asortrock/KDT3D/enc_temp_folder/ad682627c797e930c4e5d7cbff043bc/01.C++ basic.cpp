@@ -1722,7 +1722,7 @@ int main()
 		// 문자열 길이가 12글자 이지만, 배열은 13으로 잡히는데,
 		// 문자열의 끝인 \0 이라는 특수문자(1글자로 취급)가 생략되어 있다.
 		// 그렇기 때문에 총 13자리가 필요
-		const char TextStack[13] = "Hello World@"; // TextStack 과 Hello 가 같은 스택 영역에 있어서 TextStack 다음 자리에 Hello가 들어오는것.
+		const char TextStack[13] = "Hello World@"; // 이 부분?
 		int Hello = 100;
 
 		// 너무 긴 문자열이 들어오면 heap에 동적 할당
