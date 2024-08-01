@@ -1728,7 +1728,7 @@ int main()
 		// 너무 긴 문자열이 들어오면 heap에 동적 할당
 		// 초기화 시점에 문자열이 결정되고, 짧은 문자열 같은 경우 stack에
 		// 올라올 수 있다.
-		std::string String = "Hello World!";
+		std::string String = "Hello World!"; // &Hello
 		// String.append(" Wow2!");
 		String += "Wow!";
 		String[0] = 'W';
@@ -1764,19 +1764,22 @@ int main()
 		ValueToString += std::to_string(Value);
 		ValueToString += " Float: " + std::to_string(Float);
 
+		ValueToString = std::format("Value: {}, Float: {}", Value, Float);
+
 		std::cout << ValueToString << std::endl;
 	}
 	// 다국어 처리
 	{
 		// UTF-8
 		std::string MultipleLanguage = "Hello 한글 安寗\n";
-		MultipleLanguage[6] = '갈';
+		MultipleLanguage[6] = '갈'; // 내부적으로 다국어 표기가 1~3Byte를 차지 할 수 있기 때문에
+		// 이런 식으로 변경 못할 수 있음.
 
 		// UTF-16 모든 언어를 2바이트   유니코드 앞에 L 부동소수점 뒤에 f
 		wchar_t WideCharacter = L'갈';
 		std::wstring WString = L"Hello 한글 安寗\n";
 		WString[6] = L'갈';
-		//std::wstring WString = Text("Hello 한글 安寗\n");
+		//std::wstring WString = Text("Hello 한글安寗\n");
 
 		if (WString[6] == L'갈')
 		{
@@ -1827,7 +1830,7 @@ int main()
 		Instance.a = 999;
 		// Instance.b = 1234; private라서 안됨
 
-		class FClass
+		class FClass  // 데이터에 가까우면 구조체, 기능적인 측면이면 클래스로 사용함
 		{
 			// 접근지정자
 			// 기본 접근지정자: private
