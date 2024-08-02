@@ -34,7 +34,8 @@
               "RelativeToolTip": "Project1\\Function\\function.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-07-26T01:20:48.009Z"
+              "WhenOpened": "2024-07-26T01:20:48.009Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -44,9 +45,10 @@
               "RelativeDocumentMoniker": "Project1\\Function\\function.cpp",
               "ToolTip": "D:\\\uC8FC\uD558\uB298\\c\u002B\u002B\\Project1\\Function\\function.cpp",
               "RelativeToolTip": "Project1\\Function\\function.cpp",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAcwBQAAAACAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-07-26T01:21:42.154Z"
+              "WhenOpened": "2024-07-26T01:21:42.154Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -56,7 +58,7 @@
               "RelativeDocumentMoniker": "Project1\\main.cpp",
               "ToolTip": "D:\\\uC8FC\uD558\uB298\\c\u002B\u002B\\Project1\\main.cpp",
               "RelativeToolTip": "Project1\\main.cpp",
-              "ViewState": "AQIAABUAAAAAAAAAAAAAACYAAAAAAAAA",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAADgAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-07-23T04:23:05.012Z",
               "EditorCaption": ""

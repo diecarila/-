@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01.C++ basic", "01.C++ basi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01-01.Memory", "01-01.Memory\01-01.Memory.vcxproj", "{54CCF1DD-ADEB-491B-9F83-DE5CF94F5E09}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01-02 String", "01-02 String\01-02 String.vcxproj", "{AF2C977A-0997-4427-AB91-3C064C5D5352}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{54CCF1DD-ADEB-491B-9F83-DE5CF94F5E09}.Release|x64.Build.0 = Release|x64
 		{54CCF1DD-ADEB-491B-9F83-DE5CF94F5E09}.Release|x86.ActiveCfg = Release|Win32
 		{54CCF1DD-ADEB-491B-9F83-DE5CF94F5E09}.Release|x86.Build.0 = Release|Win32
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Debug|x64.ActiveCfg = Debug|x64
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Debug|x64.Build.0 = Debug|x64
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Debug|x86.Build.0 = Debug|Win32
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Release|x64.ActiveCfg = Release|x64
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Release|x64.Build.0 = Release|x64
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Release|x86.ActiveCfg = Release|Win32
+		{AF2C977A-0997-4427-AB91-3C064C5D5352}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
