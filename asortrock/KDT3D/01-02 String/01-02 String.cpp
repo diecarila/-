@@ -1,10 +1,12 @@
 ﻿// 01-02 String.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS 
 
 #include <iostream>
 #include <format>
 #include <string>
 #include <Windows.h>
+#include <codecvt>
 
 const char GString[]{ "Hello" };
 const char GString2[]{ "Hello" };
@@ -152,22 +154,127 @@ int main()
             std::cout << "Same!";
         }
 
-        std::wstring Wstring;
+        std::wstring Wstring;     
         if (Wstring.empty())
         {
             Wstring = TEXT("Hello World!");
 
-            const size_t FindIndex = Wstring.find(TEXT("d!"));
+            const size_t FindIndex = Wstring.find(TEXT("d!")); // 왜 size_t를 사용하냐 ? 많은 표준 라이브러리 함수들이 크기나 인덱스 값을 반환할때
+                                                               // size_t 타입으로 반환하기 때문에 size_t 타입으로 맞춰줌
             const size_t FindIndex2 = Wstring.find(TEXT("!!!!"));
             if (FindIndex != std::wstring::npos) // size_t 가 unsigned 형태라 -1 값이 변환되면 이상한 값이 나오기 때문임.
             {
                 std::cout << std::format("\nd! index = {}\n", FindIndex);
+                Wstring.replace(FindIndex, 1, TEXT("@!#$"));
             }
             if (FindIndex2 == std::wstring::npos)
             {
                 std::cout << "not found!\n";
             }
         }
+    }
+    // 문자열을 다른 자료형으로 변환        begin은 문자열 시작의 주소
+    {
+            // 문자열을 정수로(string to int: stoi)
+            {
+                std::wstring StringNumber{ TEXT("20") };
+                int Number = std::stoi(StringNumber);
+                std::cout << Number << std::endl;
+
+                /*std::string Test = "20";
+                std::atoi(Test.data());*/
+            }
+            // 정수를 문자열로
+            {
+                std::wstring WString = std::to_wstring(1000);
+                std::string String = std::to_string(1000);
+            }
+          
+            // UTF-8 -> WString(UTF-16)
+            {
+                std::string String = "Hello 한글 こんにちは 哈罗 صباح الخير\n";
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+                std::wstring WString = converter.from_bytes(String);
+
+                // 정상 동작 불가
+                // std::wstring WString = std::wstring(String.begin(), String end());
+            }
+            // 정수를 float로
+            {
+                std::wstring String = TEXT("3.14f");
+                float Float = std::stof(String);
+                std::wstring String2 = std::to_wstring(Float);
+                String2 = std::format(TEXT("{}"), Float);
+            }
+            {
+                class FString : public std::wstring
+                {
+                public:
+                    int ToInt() const
+                    {
+                        return std::stoi(*this);
+                    }
+                };
+                FString String{ TEXT("1024") };
+                int Int = String.ToInt();
+
+                wchar_t* Data = String.data();
+                Data[0] = TEXT('3');
+
+                Int = String.ToInt();
+                Data[1] = TEXT('A');
+                Int = String.ToInt();
+            }
+    }
+#pragma endregion
+#pragma region StringView
+    // C++17 에 추가된 읽기 전용 String class
+    {
+        std::wstring String{ TEXT("Hello") };
+        // 복사가 발생!
+        std::wstring String2 = String;
+        String2[0] = TEXT('A');
+
+        // 이렇게 해도 string이 복사되지 않는다
+        std::wstring& StringReference = String;
+        std::wstring* const StringPointer = &String;
+        StringReference[0] = TEXT('W');
+
+        // 복사가 발생하지 않음
+        std::wstring_view WStringView = String;
+        std::wstring_view WStringView2 = TEXT("Hello");
+        WStringView2 = String;
+
+        auto Function1 = [](std::wstring InString)
+            {
+
+            };
+        auto Function2 = [](std::wstring_view InStringView)
+            {
+                std::wcout << InStringView << std::endl;
+            };
+        auto Function3 = [](const std::wstring& InString)
+            {
+                std::wcout << InString << std::endl;
+            };
+
+        Function1(TEXT("asdasd"));
+        Function2(TEXT("asdasd"));
+
+        // Data 영역에 있던 asdasd가
+        // const wstring& 로 변환되기 위해서는
+        // wstring 임시객체가 만들어져야 한다
+        // 그래서 불필요한 복사가 발생할 수 있다.
+        // 하지만 wstring_view 를 사용하면 TEXT("asdfasdf") 사용할때와, 그냥 wstring을 넘길때 둘다 복사없이 사용 가능
+
+        // 복사가 발생!
+        Function3(TEXT("asdasd"));
+        std::wstring TestString = TEXT("asdfasdf");
+        // 복사가 발생하지 않음
+        Function3(TestString);
+
+        // 복사가 발생하지 않음
+        Function2(TestString);
     }
 #pragma endregion
 }
