@@ -3,7 +3,21 @@
 
 #include <iostream>
 #include "Function/function.h"
-#define HUNGRY 1
+#define HUNGRY  0x1
+#define THIRSTY 0x2
+#define TIRED   0x4
+#define FIRE    0x8
+
+#define COLD    0x10  // f에서 다음자리로 넘어감
+#define POISON  0x20
+#define POISON1  0x40
+#define POISON2  0x80
+
+#define POISON3  0x100
+#define POISON4  0x200
+#define POISON5  0x400
+#define POISON6  0x800
+
 
 // define 을 사용함으로써 이점
 // 1. 가독성
@@ -146,4 +160,20 @@ int main()
 
 	// 비트 곱(&), 합(|), xor(^) 반전(~)   
 	// xor : 같으면 0, 다르면 1
+
+	unsigned int iStatus = 0;
+
+	// 상태 추가
+	iStatus |= HUNGRY;
+	iStatus |= THIRSTY;
+
+	// 상태 확인
+	if (iStatus & THIRSTY)
+	{
+
+	}
+
+
+	// 특정 자리 비트 제거   이거 집가서 다시봐라
+	iStatus &= ~THIRSTY;
 }
