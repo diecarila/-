@@ -99,16 +99,17 @@ int main()
 		// 2진수 :0b01100100 // 쓸 일 없다
 		int V4{ 0b01100100 };
 
-		// 부동소수점(floating point): 3.14f
+		// 부동소수점(floating point): 3.14f    // 부동소수점 뒤에 f를 붙이면 float 타입으로 인식, 안 붙이면 double 타입으로 인식
 		float F{ 3.14f };
 
-		//배정도 부동소수점(double): 3.14
+		// 배정도 부동소수점(double): 3.14
 		double D{ 3.14 };
 
 		// 단일 문자
 		char C{ 'a' }; // ASCII 코드 표에 따라 숫자가 저장됨
 
-		// 문자열 "" 단일문자 ''
+		// 문자열 "" 
+		// 단일문자 ''
 	}
 #pragma endregion
 
@@ -139,7 +140,7 @@ int main()
 			signed int Var{ -1 };
 			Var = Var + 1;
 
-			// unsigned 를 붙이면 부호가 없는 타입
+			// unsigned 를 붙이면 부호가 없는 타입 -> 양수만
 			unsigned int Var2{ (unsigned int)-1 };
 			Var2 = Var2 + 1;
 
@@ -176,7 +177,7 @@ int main()
 
 			// 4Byte 실수형
 			// 단정도 부동소수점
-			// 부동소수점은 오차가 발생할 수 있다.
+			// 부동소수점은 오차가 발생할 수 있다.  대부분의 실수는 2진수로 정확하게 표현이 불가능. 그러다보니 오차가 발생할 수 있음
 
 			float F{ 3.14F };
 			int Int{ (int)3.14F };
@@ -386,7 +387,7 @@ int main()
 			float f{ 10 / 3 }; // int(10) / int(3) = int(3) -> float f = 3
 			float f2{ 10.f / 3.f };
 		}
-		// [이항] mod, 나머지 연산자
+		// [이항] mod, 나머지 연산자  -> 모듈러스 %
 		{
 			int m{ 10 % 3 };   // 몫 3, 나머지 1
 			int m2{ 5 % 2 };   // 몫 2, 나머지 1
@@ -443,7 +444,7 @@ int main()
 			i %= 2; // 3 % 2 = 몫 1 나머지 1 <<
 		}
 
-		// 비트 단위 연산   * and, or는 중요
+		// 비트 단위 연산   * and, or는 중요   and 는 곱연산 , or 는 합연산
 		{
 			// AND 연산
 			{
@@ -562,7 +563,7 @@ int main()
 			int i = 0;
 
 			//      (조건문) ? 참일때 : 거짓일때
-			//  조건을 만족하면 : 기준으로 왼 아니면 오른쪽
+			//  조건을 만족하면 : 기준으로 왼 만족하지 않으면 오른쪽
 
 			int k1 = (i == 0) ? 10 : -10;
 			int k2 = (i != 0) ? 10 : -10;
@@ -742,7 +743,8 @@ int main()
 			Bronze,
 			Silver,
 			Gold,
-		};
+		};unsigned int Var3{ 4294967295 };
+			Var3 = Var3 + 1;
 		struct FPlayer
 		{
 			int HP = 10;
@@ -851,6 +853,7 @@ int main()
 
 		// int a = 10;
 		// int b = 20;
+		
 		// 논리합(OR)      and 와 or 많이 씀.
 		// 1. a == 10? true
 		// if(true) -> true

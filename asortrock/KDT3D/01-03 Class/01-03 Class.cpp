@@ -64,13 +64,17 @@ int main()
 			// Hello 함수 내부에서 this에 접근하고 있어서 nullptr 가 this에 들어가는 경우
 			// Crash가 발생한다.
 			// 하지만, HelloTest 함수는 내부에서 this에 접근하고 있지 않기 때문에 문제가 없다.
-			Class->HelloTest();
-			Class->Hello();
+			 Class->HelloTest();
+			 // Class->Hello();
 		}
 	}
 
+	// Friend : 내가 대상을 친구로 생각하면
+	// 대상이 내 private(protected)에 접근할 수 있다
+	{
 
 
+	}
 }
 
 

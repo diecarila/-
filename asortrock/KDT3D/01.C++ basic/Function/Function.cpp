@@ -118,7 +118,7 @@ void CallByReference(FParam& InReference)
 	InReference.Value[2] = 2222;
 }
 
-void TestUnique(std::unique_ptr<int>& OutUnique) // ÀÌ ºÎºÐ ÀÌ ºÎºÐÀÌ Æ÷ÀÎÅÍ¶ó ±×·±°¡?
+void TestUnique(std::unique_ptr<int>& OutUnique) // ï¿½ï¿½ ï¿½Îºï¿½ ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½ ï¿½×·ï¿½ï¿½ï¿½?
 {
 	*OutUnique += 100;
 }
@@ -150,13 +150,13 @@ void TestWeak(std::weak_ptr<FParam> OutWeak)
 #include <cassert>
 void FunctionWithPointer(int* OutPointer)
 {
-	// debug ¸ðµåÀÏ ¶§ µ¿ÀÛÇÏ´Â assert´Â
-	// ÇÁ·Î±×·¡¸ÓÀÇ ¸í¹éÇÑ ½Ç¼ö¸¦ Å½ÁöÇÏ±â À§ÇØ¼­ »ç¿ë
+	// debug ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ assertï¿½ï¿½
+	// ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¼ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½
 
-	// if (OutPointer == nullptr) // ¸¸¾à nullptr ÀÌ¶ó¸é
+	// if (OutPointer == nullptr) // ï¿½ï¿½ï¿½ï¿½ nullptr ï¿½Ì¶ï¿½ï¿½
 	if (!OutPointer) // 0 -> !0 -> 1
 	{
-		// ½Ç½À ½ÇÇàÇÒ¶§ assert°¡ µ¿ÀÛÇØ¼­ ÁÖ¼® Ã³¸®
+		// ï¿½Ç½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ assertï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ö¼ï¿½ Ã³ï¿½ï¿½
 		// _ASSERT(false);
 		return;
 	}
@@ -188,20 +188,20 @@ void SeperateOddsAndEvens(const std::array<int, 10>& const InNumbers,
 	{
 		std::cout << Value << std::endl;
 
-		// È¦¼ö ÆÇÁ¤
-		// 1 / 2 : ¸ò :0 ³ª¸ÓÁö:1 => È¦¼ö
-		// 2 / 2 : ¸ò :1 ³ª¸ÓÁö:0 => Â¦¼ö
-		if (Value % 2 == 1) //È¦¼ö
+		// È¦ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// 1 / 2 : ï¿½ï¿½ :0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:1 => È¦ï¿½ï¿½
+		// 2 / 2 : ï¿½ï¿½ :1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:0 => Â¦ï¿½ï¿½
+		if (Value % 2 == 1) //È¦ï¿½ï¿½
 		{
 			OutOdds.push_back(Value);
 		}
-		else if (Value % 2 == 0) // Â¦¼ö
+		else if (Value % 2 == 0) // Â¦ï¿½ï¿½
 		{
 			OutEvens.push_back(Value);
 		}
 		else
 		{
-			// È¤½Ã ¿©±â µé¾î¿À¸é ÇÑ¹ø Âë ºÁ¾ß°Ú´Ù,,,
+			// È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ß°Ú´ï¿½,,,
 			_ASSERT(false);
 		}
 	}
@@ -228,20 +228,20 @@ FOddsAndEvens SeperateOddsAndEvens(const std::array<int, 10>& const InNumbers)
 		{
 			std::cout << Value << std::endl;
 
-			// È¦¼ö ÆÇÁ¤
-			// 1 / 2 : ¸ò :0 ³ª¸ÓÁö:1 => È¦¼ö
-			// 2 / 2 : ¸ò :1 ³ª¸ÓÁö:0 => Â¦¼ö
-			if (Value % 2 == 1) //È¦¼ö
+			// È¦ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// 1 / 2 : ï¿½ï¿½ :0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:1 => È¦ï¿½ï¿½
+			// 2 / 2 : ï¿½ï¿½ :1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:0 => Â¦ï¿½ï¿½
+			if (Value % 2 == 1) //È¦ï¿½ï¿½
 			{
 				Odds.push_back(Value);
 			}
-			else if (Value % 2 == 0) // Â¦¼ö
+			else if (Value % 2 == 0) // Â¦ï¿½ï¿½
 			{
 				Evens.push_back(Value);
 			}
 			else
 			{
-				// È¤½Ã ¿©±â µé¾î¿À¸é ÇÑ¹ø Âë ºÁ¾ß°Ú´Ù,,,
+				// È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ß°Ú´ï¿½,,,
 				_ASSERT(false);
 			}
 		}
@@ -258,20 +258,20 @@ FOddsAndEvens SeperateOddsAndEvens2(const std::array<int, 10>& const InNumbers)
 	{
 		std::cout << Value << std::endl;
 
-		// È¦¼ö ÆÇÁ¤
-		// 1 / 2 : ¸ò :0 ³ª¸ÓÁö:1 => È¦¼ö
-		// 2 / 2 : ¸ò :1 ³ª¸ÓÁö:0 => Â¦¼ö
-		if (Value % 2 == 1) //È¦¼ö
+		// È¦ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// 1 / 2 : ï¿½ï¿½ :0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:1 => È¦ï¿½ï¿½
+		// 2 / 2 : ï¿½ï¿½ :1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:0 => Â¦ï¿½ï¿½
+		if (Value % 2 == 1) //È¦ï¿½ï¿½
 		{
 			OddsAndEvens.Odds.push_back(Value);
 		}
-		else if (Value % 2 == 0) // Â¦¼ö
+		else if (Value % 2 == 0) // Â¦ï¿½ï¿½
 		{
 			OddsAndEvens.Evens.push_back(Value);
 		}
 		else
 		{
-			// È¤½Ã ¿©±â µé¾î¿À¸é ÇÑ¹ø Âë ºÁ¾ß°Ú´Ù,,,
+			// È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ß°Ú´ï¿½,,,
 			_ASSERT(false);
 		}
 	}

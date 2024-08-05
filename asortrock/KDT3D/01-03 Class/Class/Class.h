@@ -103,7 +103,7 @@ public:
 	{
 
 	}
-	void Hello() const
+	 void Hello() const
 	{
 		std::cout << std::format("Hello : {}\n", this->a);
 
