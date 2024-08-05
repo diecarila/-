@@ -1,7 +1,13 @@
 
-//�ּ��� �׳� ���� ���� ������. �ڵ�� �ν����� ����.
+// # <- 전처리기 컴파일러가 제일 처음에 인식함
+
 #include <iostream>
 #include "Function/function.h"
+#define HUNGRY 1
+
+// define 을 사용함으로써 이점
+// 1. 가독성
+// 2. 코드 유지보수 용이
 
 int main()
 {
@@ -105,5 +111,39 @@ int main()
 	{
 
 	}*/
+	int iTest = 10;
+	switch (iTest)   // break 를 걸어주지 않으면 걸리지 않고 아래것까지 진행함
+	{
+	case 10:
 
+		break;
+
+	case 20:
+		break;
+
+	default:
+		break;
+	}
+
+	// 삼항 연산자           가독성 이슈로 굳이?의 느낌
+	// :?
+	iTest == 10 ? iTest = 100 : iTest = 200;  // 참이면 : 기준 왼쪽 거짓이면 오른쪽
+
+	// 같은 의미
+	if (iTest == 10)
+	{
+		iTest = 100;
+	}
+	else
+	{
+		iTest = 200;
+	}
+
+	// 비트 연산자
+	// 쉬프트 <<, >> 
+
+
+
+	// 비트 곱(&), 합(|), xor(^) 반전(~)   
+	// xor : 같으면 0, 다르면 1
 }
