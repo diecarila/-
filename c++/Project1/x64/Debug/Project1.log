@@ -1,2 +1,4 @@
 ﻿  main.cpp
+D:\주하늘\c++\Project1\main.cpp(53,7): warning C4309: '=': 상수 값이 잘립니다.
+D:\주하늘\c++\Project1\main.cpp(88,14): warning C4305: '초기화 중': 'int'에서 'bool'(으)로 잘립니다.
   Project1.vcxproj -> D:\주하늘\c++\x64\Debug\Project1.exe
