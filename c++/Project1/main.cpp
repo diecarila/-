@@ -18,6 +18,7 @@
 #define POISON5  0x400
 #define POISON6  0x800
 
+#include<stdio.h> // 표준 입출력
 // define 을 사용함으로써 이점
 // 1. 가독성
 // 2. 코드 유지보수 용이
@@ -37,7 +38,7 @@ int main()
 	// ������ : char(1), short(2), int(4), long(4), long long(8)
 	// �Ǽ��� : float(4), double(8)
 	// �������� �Ǽ����� �����ϴ� ������ ���� ó������� �ٸ��� ����.
-	int i = 0;
+	// int i = 0;
 
 	// 1����Ʈ�� ����� ǥ��
 	// 256���� -> 0 ~ 255
@@ -195,7 +196,7 @@ int main()
 	// 2. 전역변수
 	// 3. 정적변수
 	// 4. 외부변수
-
+	 
 	// 지역변수
 	int iName = 0;
 
@@ -215,6 +216,77 @@ int main()
 	iName = 100;
 
 	// 함수
-
+	// printf();
+	// scanf();
 	
+
+	// 반복문
+	// for (/*반복자 초기화*/ ; /*반복자 조건 체크*/ ; /*반복자 변경*/)
+	// {
+
+	// }
+
+	for (int i = 0; i < 4; ++i)
+	{
+		if (i % 2 == 1)
+		{
+			continue; // -> 그냥 넘어감 아래 구문을 실행하지않고
+		}
+
+		std::cout << "Output Test\n";   // printf("Output Test\n")
+	}
+	
+	/*int i = 0;
+	while (i < 2)
+	{
+		printf("OutPut Test\n"); 
+
+		++i;
+
+		continue;
+
+		break;
+	}*/
+	
+	// 콘솔
+	// printf
+	printf("abcdef %d \n", 10);  // %d에 뒤에 10이 들어감
+	printf("abcdef %f \n", 3.14f); // 실수 타입은 뒤에 f
+
+	for (int i = 0; i < 10; ++i)
+	{
+		printf("Output i : %d \n", i);
+	}
+	
+	// scanf
+	int iInput = 0;
+	scanf_s("%d", &iInput);  // --> & 이유는 나중에 설명.
+
+	// 먼저 들어온 게 먼저 나가는 데이터구조  Queue ->  선입 선출
+	//	정반대의 구조						  Stack ->  선입 후출
+
+	// 함수가 사용하는 메모리 영역은 Stack 영역
+	
+
+	// 함수의 작동 원리
+	// 1. main 함수에서 add 함수를 호출
+	
+	
+	//      Stack 영역
+	//
+	//		add 
+	//      main
+
+	// 2. add 함수에 a,b 를 보냄
+	// 3. add 함수에서 a,b를 계산한 후 리턴을 만남
+	// 4. return 값을 다시 main에 보낸 후 메모리 영역에서 사라짐.
+
+
+
+
+
+
+
+
+	return 0;
 }
