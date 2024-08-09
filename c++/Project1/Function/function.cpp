@@ -63,6 +63,13 @@ int Fibonacci(int _iNum)
 
 		return Fibonacci_Re(_iNum - 1) + Fibonacci_Re(_iNum - 2);
 	}
+
+}
+int Test()
+{
+	static int i = 0;    // -> 함수가 실행될때마다 0을 i에 넣는게 아님 최초 한 번만 실행
+	++i;
+	return i;
 }
 
 
